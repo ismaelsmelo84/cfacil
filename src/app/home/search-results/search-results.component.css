@@ -1,0 +1,28 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+p.caixa {
+    background-color: #FAFAD2;
+    border:2px solid #EEE8AA;
+    padding: 10px;
+    text-align:justify;
+}
+
+@media all and (max-width:1200px) {
+        .calculator tr {    display: table;  width:100%;    }
+        .calculator td {    display: table-row; }
+    }

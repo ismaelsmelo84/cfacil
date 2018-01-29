@@ -1,0 +1,87 @@
+<section id="products" class=" padding-top-bottom gray-bg">
+  <div class="container">
+    <header class="section-header text-center anima fade-up">
+      <h2>PRODUTOS</h2>
+    </header>
+  </div>
+  <div class="container">
+    <div id="projects-container" class="row">
+
+      <!-- Galeria 1 -->
+      <article class="design product col-xs-12 col-sm-6 col-md-4 anima fade-up">
+        <div class="img-box">
+          <div class="hover-mask2"></div>
+          <span class="product-icon icon-eye"></span>
+          <img class="img-responsive project-image" src="assets/img/product1.jpg" alt="">
+        </div>
+        <div class="product-info col-md-12">
+          <div>
+            <h4 class="project-title">{{galerias[0]['name']}}</h4>
+          </div>
+        </div>
+        <div class="sr-only project-description" data-images="assets/img/01.jpg,assets/img/02.jpg,assets/img/03.jpg,assets/img/04.jpg,assets/img/05.jpg">
+          <p>{{galerias[0]['description']}}</p>
+        </div>
+      </article>
+
+      <!-- Galeria 2 -->
+      <article class="mock-up product col-xs-12 col-sm-6 col-md-4 anima fade-up d1">
+        <div class="img-box">
+          <div class="hover-mask2"></div>
+          <span class="product-icon icon-eye"></span>
+          <img class="img-responsive project-image" src="assets/img/product2.jpg" alt="">
+        </div>
+        <div class="product-info col-md-12">
+          <div>
+            <h4 class="project-title">{{galerias[1]['name']}}</h4>
+          </div>
+        </div>
+        <div class="sr-only project-description" data-images="assets/img/06.jpg,assets/img/07.jpg,assets/img/08.jpg,assets/img/09.jpg">
+          <p>{{galerias[1]['description']}}</p>
+        </div>
+      </article>
+
+      <!-- Galeria 3 -->
+      <article class=" icons product col-xs-12 col-sm-6 col-md-4 anima fade-up d2">
+        <div class="img-box">
+          <div class="hover-mask2"></div>
+          <span class="product-icon icon-eye"></span>
+          <img class="img-responsive project-image" src="assets/img/product3.jpg" alt="">
+        </div>
+        <div class="product-info col-md-12">
+          <div>
+            <h4 class="project-title">{{galerias[2]['name']}}</h4>
+          </div>
+        </div>
+        <div class="sr-only project-description" data-images="assets/img/10.jpg,assets/img/11.jpg,assets/img/12.jpg">
+          <p>{{galerias[2]['description']}}</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div id="project-modal" class="modal " style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a class="close" href="#" data-dismiss="modal" ><i class="icon-close"></i></a>
+          <div id="project-slider" class="owl-carousel owl-theme" data-navigation="true" data-dots="true" >
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div id="project-sidebar" class="col-md-4 ">
+                <h2 id="sdbr-title"></h2>
+              </div>
+              <div id="project-content" class="col-md-8 ">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

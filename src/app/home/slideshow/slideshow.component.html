@@ -1,0 +1,63 @@
+<section id="hero" class="hero-slider light-typo full-height" data-height="600" >
+  <div id="hero-slider" class="owl-carousel owl-theme" data-autoplay="4000" data-navigation="false" data-dots="true" data-transition="fadeOut">
+
+    <!-- Slide 1 -->
+    <div class="item m-center" style="background-image: url(assets/img/01.jpg);">
+      <div class="center-box">
+        <span class="overlay-bg"></span>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 text-center anima fade-up">
+              <div class="hero-unit">
+                <img id="logo" src="{{slides[0]['im_cabecalho']}}" class="img-responsive text-center" alt="shop logo" width="300">
+                <p>{{slides[0]['ds_texto']}}</p>
+                <ul class="social-links text-center">
+                  <!-- <li><a href="#link"><i class="icon-twitter"></i></a></li> Caso queira habilitar o link para o twitter-->
+                  <li><a href="{{slides[0]['no_linkIconeSocial']}}"><i class="{{slides[0]['im_iconeSocial']}}"></i></a></li>
+                  <!-- <li><a href="#link"><i class="icon-vimeo"></i></a></li> Caso queira habilitar o link para o vimeo-->
+                </ul>
+                <a class="btn btn-store smooth-scroll" href="{{slides[0]['no_linkBotao']}}">{{slides[0]['no_botao']}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="item m-center" style="background-image: url(assets/img/06.jpg);">
+      <div class="center-box">
+        <span class="overlay-bg"></span>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 text-center anima fade-up">
+              <div class="hero-unit">
+                <h2>{{slides[1]['no_cabecalho']}}</h2>
+                <p>{{slides[1]['ds_texto']}}</p>
+                <a class="btn btn-store outline smooth-scroll" href="{{slides[1]['no_linkBotao']}}">{{slides[1]['no_botao']}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="item m-center" style="background-image: url(assets/img/10.jpg);">
+      <div class="center-box">
+        <span class="overlay-bg"></span>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 text-center anima fade-up">
+              <div class="hero-unit">
+                <h2>{{slides[2]['no_cabecalho']}}</h2>
+                <p>{{slides[2]['ds_textoParte1']}}</p><p>{{slides[2]['ds_textoParte2']}}</p>
+                <a class="btn btn-store outline smooth-scroll" href="{{slides[2]['no_linkBotao']}}">{{slides[2]['no_botao']}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

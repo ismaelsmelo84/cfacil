@@ -1,0 +1,324 @@
+<section id="orderform" class="gray-bg padding-top-bottom"> <!--ng-controller="orderController"-->
+  <div class="container">
+
+    <!--Header -->
+    <header class="section-header text-center">
+      <h2>FAÇA SEU PEDIDO</h2>
+    </header>
+
+    <!--Formulário -->
+    <form [formGroup]="orderForm" (submit)="saveOrder()" novalidate id="order-form">
+    <!--<form action="index.html" method="post" novalidate id="order-form">-->
+
+      <!-- Lista de itens -->
+      <div class="row">
+        <div>
+          <p class="text-left"><strong>ITENS DO CARRINHO</strong></p>
+          <table class="table calculator">
+
+            <!-- Cabeçalho da tabela -->
+            <thead>
+
+              <tr>
+                <th>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </th>
+                <th>
+                  <tr>
+                    <td>TECIDO&nbsp;</td>
+                    <td class="right-title-header">
+                      <a data-balloon="1. Escolha cortina principal e blackout, caso prefira o conjunto completo." data-balloon-pos="up">
+                        <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
+                      </a>
+                    </td>
+                  </tr>
+                </th>
+                <th>
+                  <tr>
+                    <td>DIMENSÕES&nbsp;</td>
+                    <td class="right-title-header">
+                      <a data-balloon="2. Em seguida, informe as medidas da(s) cortina(s). Ex.: 2 metros = 200 cm." data-balloon-pos="up">
+                        <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
+                      </a>
+                    </td>
+                  </tr>
+                </th>
+
+                <th>
+                  <tr>
+                    <td>COMPLEMENTO&nbsp;</td>
+                    <td class="right-title-header">
+                      <a data-balloon="3. Depois selecione o tipo de suporte e a quant. de itens desejada." data-balloon-pos="up">
+                        <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
+                      </a>
+                    </td>
+                  </tr>
+                </th>
+
+                <th>
+                  <tr>
+                    <td class="col-sm-3 col-md-3 col-lg-3">
+                      <a data-balloon="4. Confira os totais por item (abaixo). Se necessário, você pode ajustar." data-balloon-pos="up">
+                        <img src="assets/img/calculadora.png" width="20" height="28" alt="Dica" class="centro">
+                      </a>
+                    </td>
+                    <td class="col-sm-9 col-md-9 col-lg-9">TOTAL POR ITEM</td>
+                  </tr>
+                </th>
+
+                <th>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </th>
+              </tr>
+
+            </thead>
+
+            <!-- Linhas da tabela -->
+            <tbody formArrayName="items">
+
+              <!-- Linha 1 -->
+              <tr *ngFor="let ord of orderForm.get('items').controls; let i = index;" [formGroupName]="i">
+
+                <!-- COLUNA 1 - ID: 1 -->
+                <td class="col-sm-1 col-md-1 col-lg-1 text-center fonte-verde">
+
+                  <div class="row space">
+                    <div class="col-sm-12 col-md-12">
+                      <strong>{{i+1}}</strong><br><br>
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- COLUNA 2 - Tecido: 3 -->
+                <td  class="col-sm-3 col-md-3 col-lg-3 text-left">
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-3 space-label">Principal:</div>
+                    <div class="col-sm-6 col-md-9 text-left">
+                      <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
+                        <option *ngFor="let opt of tecidoPrincipal" [value]="opt.id">{{opt.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-3 space-label">Blackout:</div>
+                    <div class="col-sm-6 col-md-9 text-left">
+                      <select id="tpBlackout" formControlName="tpBlackout" class="form-control form-control-inline" name="{{'nu_tpBlackout' + i}}" data-balloon-length="15">
+                        <option *ngFor="let opt of tecidoBlackout" [value]="opt.id">{{opt.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- COLUNA 3 - Dimensões: 3 -->
+                <td class="col-sm-3 col-md-3 col-lg-3 text-left">
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-5 col-lg-5 space-label">Altura (cm):</div>
+                    <div class="col-sm-6 col-md-7 col-lg-7 text-left">
+                      <input id="height" formControlName="height" name="{{'nu_altura' + i}}" class="form-control form-control-inline" type="number" min="50" max="1000" size="4">
+                    </div>
+                  </div>
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-5 col-lg-5 space-label">Largura (cm):</div>
+                    <div class="col-sm-6 col-md-7 col-lg-7 text-left">
+                      <input id="width" formControlName="width" name="{{'nu_largura' + i}}" class="form-control form-control-inline" type="number" min="50" max="1000" size="4">
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- COLUNA 4 - Suporte: 2 -->
+                <td class="col-sm-2 col-md-2 col-lg-2 text-left">
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-6 col-lg-4 space-label">Suporte:</div>
+                    <div class="col-sm-6 col-md-6 col-lg-8 text-left">
+                      <select id="tpSupport" formControlName="tpSupport" class="form-control form-control-inline" name="{{'nu_tpSupport' + i}}">
+                        <option *ngFor="let opt of tipoSuporte" [value]="opt.id">{{opt.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row space">
+                    <div class="col-sm-6 col-md-6 col-lg-4 space-label">Quant.:</div>
+                    <div class="col-sm-6 col-md-6 col-lg-8 text-left">
+                      <input id="qt" formControlName="qt" name="{{'nu_qt' + i}}" class="form-control form-control-inline" type="number" min="1" max="99" size="2">
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- COLUNA 5 - Preço: 2 -->
+                <td class="col-sm-2 col-md-2 col-lg-2 text-left">
+
+                  <div class="row space">
+                    <div class="col-sm-0 col-md-3 col-lg-3"></div>
+                    <div class="col-sm-12 col-md-9 col-lg-9 mini-texto text-center">
+                      <div><br>
+                      <span *ngIf="orderForm.controls.items.controls[i].controls.tpPrincipal.value!=='0' && orderForm.controls.items.controls[i].controls.tpPrincipal.value!==0">{{ getCalculoCortinaGenerico(i,'Principal') | currency:"1 UN. Principal: R$ ":0 }}<br></span>
+                      <span *ngIf="orderForm.controls.items.controls[i].controls.tpBlackout.value!=='0' && orderForm.controls.items.controls[i].controls.tpBlackout.value!==0">{{ getCalculoCortinaGenerico(i,'Blackout') | currency:"1 UN. Blackout: R$ ":0  }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row space">
+                    <div class="col-sm-0 col-md-3 col-lg-3"></div>
+                    <div class="col-sm-12 col-md-9 col-lg-9 total bottom text-center">{{ getCalculoCortina(i) | currency:"R$":0  }}
+                    </div>
+                  </div>
+
+                </td>
+
+                <!-- COLUNA 6 - Ação: 1 -->
+                <td class="col-sm-12 col-md-1 col-lg-1 text-right">
+
+                  <div><br>
+                    <a href="#orderform"(click)="removeRow(i)"><img src="assets/img/excluir2.png" width="15" height="15" alt="Excluir"></a>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr>
+                <td></td>
+                <td class="text-left">*Não acompanha varão ou trilho de fixação, nem inclui a montagem.
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="col-sm-1 col-md-1 col-lg-1 text-right">
+                  <a href="#orderform" (click)="addItem()"><img src="assets/img/mais2.png" width="20" height="20" alt="Adicionar"></a>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <!-- Dados pessoais -->
+        <div class="col-sm-6 col-md-6 contact-info">
+
+          <!-- Cabeçalho dos métodos de pagamento -->
+          <p class="text-left"><strong>DADOS PESSOAIS</strong></p>
+
+          <!-- Formulário de faturamento -->
+          <div class="form-group">
+            <label for="no_cliente" class="control-label">Nome</label>
+            <input formControlName="no_cliente" id="no_cliente" name="no_cliente" placeholder="Nome" class="form-control input-lg" type="text" required>
+            <control-messages [control]="orderForm.controls.no_cliente"></control-messages>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 col-md-4">
+              <div class="form-group">
+                <label for="nu_telefone" class="control-label">Telefone</label>
+                <input formControlName="nu_telefone" id="nu_telefone" name="nu_telefone" placeholder="DDD+Telefone" class="form-control input-lg" type="text" autocomplete="off">
+                <control-messages [control]="orderForm.controls.nu_telefone"></control-messages>
+              </div>
+            </div>
+            <div class="col-sm-8 col-md-8">
+              <div class="form-group">
+                <label for="no_email" class="control-label">Email</label>
+                <input formControlName="no_email" id="no_email" name="no_email" placeholder="E-mail" class="form-control input-lg" type="email">
+                <control-messages [control]="orderForm.controls.no_email"></control-messages>
+              </div>
+            </div>
+          </div>
+
+          <p><img src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/todos_estatico_550_100.gif" width="100%" alt="Logotipos de meios de pagamento do PagSeguro" title="Este site aceita pagamentos com as principais bandeiras e bancos, saldo em conta PagSeguro e boleto."></p><br>
+
+          <p class="caixa"><strong>*ATENÇÃO</strong><br>Você está comprando a cortina confeccionada com seus fixadores (argolas, deslizantes ou ilhoses). O produto não acompanha o varão ou trilho de sustentação, nem inclui a mão de obra para instalação.</p>
+
+        </div>
+
+        <!-- Endereço de entregamento -->
+        <div class="col-sm-6 col-md-6">
+
+          <!-- Cabeçalho do endereço -->
+          <p class="text-left"><strong>SOBRE A ENTREGA</strong></p>
+
+          <!-- Formulário de endereço -->
+          <div class="form-group">
+            <label for="no_logradouro" class="control-label">Logradouro</label>
+            <input formControlName="no_logradouro" id="no_logradouro" name="no_logradouro" placeholder="Logradouro" class="form-control" type="text">
+            <control-messages [control]="orderForm.controls.no_logradouro"></control-messages>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="nu_numero" class="control-label">Numero</label>
+              <input formControlName="nu_numero" id="nu_numero" name="nu_numero" placeholder="Número" class="form-control" type="text">
+              <control-messages [control]="orderForm.controls.nu_numero"></control-messages>
+            </div>
+            <div class="col-sm-6 col-md-6 form-group">
+              <label for="no_bairro" class="control-label">Bairro</label>
+              <input formControlName="no_bairro" id="no_bairro" name="no_bairro" placeholder="Bairro" class="form-control" type="text">
+              <control-messages [control]="orderForm.controls.no_bairro"></control-messages>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="no_municipio" class="control-label">Municipio</label>
+            <input formControlName="no_municipio" id="no_municipio" name="no_municipio" placeholder="Município" class="form-control" type="text">
+            <control-messages [control]="orderForm.controls.no_municipio"></control-messages>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="sg_uf" class="control-label">UF</label>
+                <select formControlName="sg_uf" id="sg_uf" name="sg_uf" class="form-control input-lg">
+                  <option *ngFor="let opt of tableShipping" [value]="opt.uf">{{opt.uf}} - {{opt.nameUf}}</option>
+                </select>
+                <control-messages [control]="orderForm.controls.sg_uf"></control-messages>
+            </div>
+            <div class="col-sm-6 col-md-6 form-group">
+                <label for="nu_cep" class="control-label">Municipio</label>
+                <input formControlName="nu_cep" id="nu_cep" name="nu_cep" placeholder="CEP" class="form-control" type="text">
+                <control-messages [control]="orderForm.controls.nu_cep"></control-messages>
+            </div>
+          </div>
+
+          <!-- Resumo do pedido -->
+          <table class="table">
+
+            <!-- Cabeçalho do resumo -->
+            <p class="text-left"><strong>RESUMO DO PEDIDO</strong></p>
+
+            <!-- Cabeçalho do resumo -->
+            <tbody>
+              <tr>
+                <td>Cortinas (quantidade)</td>
+                <td></td>
+                <td class="text-right">{{ getQtItens() }}</td>
+              </tr>
+              <tr>
+                <td>Valor do frete:</td>
+                <td></td>
+                <td class="text-right">{{getFrete() | currency:"R$ ":0 }}</td>
+              </tr>
+              <tr>
+                <td>Total (com frete):</td>
+                <td></td>
+                <td id="total" class="text-right">{{ getSomaTotal() + getFrete() | currency:"R$ ":0 }}</td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <!-- Opções de compra / Checkout -->
+          <p [hidden]="getSomaTotal()==0"><button name="submit" type="submit" class="btn btn-store btn-block" [disabled]="!orderForm.valid">Efetuar Pedido (PagSeguro)</button></p>
+          <input type="hidden" name="submitted" id="submitted" value="true">
+
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
