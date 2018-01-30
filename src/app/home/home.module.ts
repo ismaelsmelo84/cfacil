@@ -23,6 +23,10 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { ControlMessagesComponent } from '../_components/validator/control-messages.component';
 import { ValidationService } from '../_components/validator/validation.service';
 
+/*Recursos de cabeçalho e rodapé */
+import { HeaderComponent } from '../_components/header/header.component';
+import { FooterComponent } from '../_components/footer/footer.component';
+
 /* Serviços */
 import { OrdersService } from '../_services/orders/orders.service';
 import { PagseguroService } from '../_services/pagseguro/pagseguro.service';
@@ -45,6 +49,8 @@ const ROUTES: Routes = [
              RouterModule.forChild(ROUTES)
   ],
   declarations: [
+             HeaderComponent,
+             FooterComponent,
              HomeComponent,
              TermsComponent,
              SlideshowComponent,
@@ -82,7 +88,8 @@ const ROUTES: Routes = [
              ParametersService,
              ProductsService,
              UsersService
-  ]
+  ],
+  bootstrap: [HomeComponent]
 })
 
 export class HomeModule { }
