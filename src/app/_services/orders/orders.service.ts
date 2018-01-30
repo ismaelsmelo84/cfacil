@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Observable} from 'rxjs/Observable'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
-import {configAPI} from '../config_api'
+import { URL_API } from '../config_api'
+import { Order } from './orders.model'
 
 @Injectable()
 export class OrdersService {
+
+  order: Order
+
+  //Teste da criação de um serviço
+  private user = new BehaviorSubject<string>('John')
+  cast = this.user.asObservable()
 
   orders: any = [
       {id: 1, name: 'teste1'},
@@ -15,6 +23,10 @@ export class OrdersService {
 
   constructor() {
 
+  }
+
+  editUser(newUser) {
+    this.user.next(newUser)
   }
 
   //Consultar pedidos realizados

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Item } from './order.model'
 import { tecidoPrincipal, tecidoBlackout, tipoSuporte, tableShipping, parGerais } from '../data';
+import { HttpClient } from '@angular/common/http';
 
 import { ValidationService } from '../../_components/validator/validation.service';
 
@@ -15,6 +16,8 @@ import { OrdersService } from '../../_services/orders/orders.service'
 
 export class OrderComponent implements OnInit {
 
+ user: string
+
  //Cadastros
  tecidoPrincipal: any;
  tecidoBlackout: any;
@@ -27,8 +30,12 @@ export class OrderComponent implements OnInit {
 
  orders: any; //caputura do serviço TESTE - REVISAR
 
+ registro: any
+ found: boolean
+
  constructor(private ordersService: OrdersService,
-             private formBuilder: FormBuilder) {
+             private formBuilder: FormBuilder,
+             private httpClient: HttpClient) {
 
    Object.assign(this, {
      tecidoPrincipal, tecidoBlackout, tipoSuporte, tableShipping, parGerais
@@ -36,7 +43,10 @@ export class OrderComponent implements OnInit {
  }
 
  ngOnInit() {
+   this.getTestAPI()
    this.orders = this.ordersService.searchOrder() //caputura do serviço TESTE - REVISAR
+   this.ordersService.cast.subscribe(user => this.user = user)
+
    this.orderForm = this.formBuilder.group({
 
      //Form Array
@@ -62,6 +72,29 @@ export class OrderComponent implements OnInit {
 
    });
  }
+
+ onNamekeyUp(event: any) {
+   console.log(event.target.value)
+ }
+
+ getTestAPI() {
+   let termoPesquisa: string = ''
+   this.httpClient.get('https://my-json-server.typicode.com/typicode/demo/profile' + termoPesquisa)
+    .subscribe(
+      (data: any[]) => {
+        if(data.length) {
+          this.registro = data[0]
+          this.found = true
+        }
+      }
+    )
+ }
+
+ postTestAPI() {
+   let data: any = {}
+   this.httpClient.post('https://my-json-server.typicode.com/typicode/demo/profile/', data)
+    .subscribe( (data: any) => { console.log(data) }
+ )}
 
  public createItem(): FormGroup {
    return this.formBuilder.group({

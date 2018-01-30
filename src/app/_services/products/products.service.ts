@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Observable} from 'rxjs/Observable'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
-import {configAPI} from '../config_api'
+import { URL_API } from '../config_api'
+import { ProdutoPrincipal, ProdutoBlackout, ProdutoSupport } from './products.model'
 
 @Injectable()
 export class ProductsService {
+
+  produtoPrincipal: ProdutoPrincipal
+  produtoBlackout: ProdutoBlackout
+  produtoSupport: ProdutoSupport
 
   constructor() {
 

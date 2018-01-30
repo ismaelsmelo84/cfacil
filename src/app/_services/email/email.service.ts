@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Observable} from 'rxjs/Observable'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
-import {configAPI} from '../config_api'
+import { URL_API } from '../config_api'
+import { Email } from './email.model'
 
 @Injectable()
 export class OrdersService {
 
-  no_email: string
+  email: Email
 
   constructor(tpService, no_email) {
 

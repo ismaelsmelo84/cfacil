@@ -1,11 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
+/* Recursos nativos e de terceiros */
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router'
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { HttpClientModule } from '@angular/common/http';
 
-import { HomeRoutingModule } from './home.routing';
-
+/* Recursos customizados */
 import { HomeComponent } from './home.component';
 import { AboutComponent } from './about/about.component';
 ﻿import { OrderComponent } from './order/order.component';
@@ -19,25 +20,29 @@ import { TermsComponent } from './terms/terms.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { SearchOrderComponent } from './search-order/search-order.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
-
 import { ControlMessagesComponent } from '../_components/validator/control-messages.component';
-
 import { ValidationService } from '../_components/validator/validation.service';
 
-//Services
+/* Serviços */
 import { OrdersService } from '../_services/orders/orders.service';
 import { PagseguroService } from '../_services/pagseguro/pagseguro.service';
 import { ParametersService } from '../_services/parameters/parameters.service';
 import { ProductsService } from '../_services/products/products.service';
 import { UsersService } from '../_services/users/users.service';
 
+/* Tabela de Rotas do Módulo */
+const ROUTES: Routes = [
+  {path: '', component: HomeComponent}
+]
+
+/* Declarações do Módulo */
 @NgModule({
   imports: [
              BrowserModule,
              FormsModule, ReactiveFormsModule,
              CommonModule,
              HttpClientModule,
-             HomeRoutingModule
+             RouterModule.forChild(ROUTES)
   ],
   declarations: [
              HomeComponent,
