@@ -3,7 +3,8 @@ import { Routes } from '@angular/router';
 
 @Component({
   selector: 'app-thanks',
-  templateUrl: 'thanks.component.html'
+  templateUrl: 'thanks.component.html',
+  styleUrls: ['./thanks.component.css']
 })
 
 export class ThanksComponent implements OnInit {
@@ -12,6 +13,6 @@ export class ThanksComponent implements OnInit {
  }
 
  ngOnInit() {
-   
+
  }
 }

@@ -13,7 +13,7 @@ export const ROUTES: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login/:to', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'obrigado', component: ThanksComponent },
+  { path: 'obrigado', loadChildren: './thanks/thanks.module#ThanksModule' },
   { path: 'pedidos',  loadChildren: './orders/orders.module#OrderModule',
       canLoad: [LoggedInGuard], canActivate: [LoggedInGuard] },
   { path: '**', redirectTo: '/' }];

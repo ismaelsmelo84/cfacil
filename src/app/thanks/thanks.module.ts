@@ -11,7 +11,7 @@ import { ThanksComponent } from './thanks.component';
 
 /* Tabela de Rotas do Módulo */
 const ROUTES: Routes = [
-  {path: '', component: ThanksComponent }
+  {path: 'obrigado', component: ThanksComponent }
 ]
 
 /* Declarações do Módulo */

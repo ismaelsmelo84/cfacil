@@ -1,4 +1,4 @@
-<section id="orderform" class="gray-bg padding-top-bottom"> <!--ng-controller="orderController"-->
+<section id="order" class="gray-bg padding-top-bottom"> <!--ng-controller="orderController"-->
   <div class="container">
 
     <!--Header -->
@@ -7,7 +7,7 @@
     </header>
 
     <!--Formulário -->
-    <form [formGroup]="orderForm" (submit)="saveOrder()" novalidate id="order-form">
+    <form [formGroup]="orderForm" novalidate id="order-form" submit="saveOrder()">
     <!--<form action="index.html" method="post" novalidate id="order-form">-->
 
       <!-- Lista de itens -->
@@ -315,8 +315,7 @@
 
           <!-- Opções de compra / Checkout -->
           <p [hidden]="getSomaTotal()==0"><button name="submit" type="submit" class="btn btn-store btn-block" [disabled]="!orderForm.valid">Efetuar Pedido (PagSeguro)</button></p>
-          <input type="hidden" name="submitted" id="submitted" value="true">
-
+          <!--<input type="hidden" name="submitted" id="submitted" value="true">-->
         </div>
       </div>
     </form>

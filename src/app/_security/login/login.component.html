@@ -1,9 +1,12 @@
 <section class="content login-content" style="margin: 10% auto">
   <div class="login-logo">
-       <b>CortinaFacil</b>.online | Login
+
   </div>
   <div class="col-xs-12 col-sm-offset-3 col-sm-6 login-box-body">
-  <p class="login-box-msg">Por favor, efetue o login para continuar</p>
+    <img src="assets/img/osp-logo.png" width="70" height="70" class="centro">
+    <h2>ÁREA DE ADMINISTRAÇÃO</h2><br>
+    <b>CortinaFacil</b>.com.br | Login
+  <p class="login-box-msg">Por favor, efetue logon para continuar</p>
 
   <form [formGroup]="loginForm">
     <mt-input-container [showTip]="false">
@@ -17,7 +20,7 @@
     <div class="row">
       <!-- /.col -->
       <div class="col-xs-offset-8 col-xs-4">
-        <button type="submit" (click)="login()" [disabled]="loginForm.invalid" class="btn btn-primary btn-block btn-flat">Entrar</button>
+        <button type="submit" (click)="login()" [disabled]="loginForm.invalid" class="btn btn-store btn-block">Entrar</button>
       </div>
       <!-- /.col -->
     </div>

@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ValidationService } from '../../_components/validator/validation.service';
 
-import { OrdersService } from '../../_services/orders/orders.service'
+//import { OrdersService } from '../../_services/orders/orders.service'
 
 @Component({
   selector: 'app-home-order',
@@ -28,14 +28,14 @@ export class OrderComponent implements OnInit {
  orderForm: FormGroup
  items: any[] = []
 
+ /*
  orders: any; //caputura do serviço TESTE - REVISAR
-
  registro: any
- found: boolean
+ found: boolean */
 
- constructor(private ordersService: OrdersService,
-             private formBuilder: FormBuilder,
-             private httpClient: HttpClient) {
+ //private ordersService: OrdersService,
+ //HTTP tmb
+ constructor(private formBuilder: FormBuilder) {
 
    Object.assign(this, {
      tecidoPrincipal, tecidoBlackout, tipoSuporte, tableShipping, parGerais
@@ -43,36 +43,28 @@ export class OrderComponent implements OnInit {
  }
 
  ngOnInit() {
+   /*
    this.getTestAPI()
    this.orders = this.ordersService.searchOrder() //caputura do serviço TESTE - REVISAR
-   this.ordersService.cast.subscribe(user => this.user = user)
+   this.ordersService.cast.subscribe(user => this.user = user)*/
 
    this.orderForm = this.formBuilder.group({
-
-     //Form Array
      items: this.formBuilder.array([ this.createItem() ]),
-
-     //Resumo do Pedido
      qt_itens: 0,
      vr_frete: 0,
      vr_total: 0,
-
-     //Dados Pessoais
      no_cliente: ['', [Validators.required, Validators.minLength(3)]],
      nu_telefone: ['', [Validators.required, Validators.minLength(9)]],
      no_email: ['', [Validators.required, ValidationService.emailValidator]],
-
-     //Endereço
      no_logradouro: ['', [Validators.required, Validators.minLength(3)]],
      nu_numero: ['', Validators.required],
      no_bairro: ['', [Validators.required, Validators.minLength(3)]],
      no_municipio: ['', [Validators.required, Validators.minLength(3)]],
      sg_uf: ['RS', Validators.required],
      nu_cep: ['', [Validators.required, Validators.minLength(2)]]
-
    });
  }
-
+ /*
  onNamekeyUp(event: any) {
    console.log(event.target.value)
  }
@@ -95,6 +87,7 @@ export class OrderComponent implements OnInit {
    this.httpClient.post('https://my-json-server.typicode.com/typicode/demo/profile/', data)
     .subscribe( (data: any) => { console.log(data) }
  )}
+*/
 
  public createItem(): FormGroup {
    return this.formBuilder.group({
@@ -239,10 +232,13 @@ export class OrderComponent implements OnInit {
    var total = Number(this.orderForm.controls.vr_total)
 
    return total
-}
+ }
 
  //Salvar pedido
- public saveOrder() {
-   console.log(this.orderForm.controls)
+ saveOrder() {
+/*   if (this.orderForm.dirty && this.orderForm.valid) {
+     console.log(`Oi`);
+   }*/
+   console.log('Oi')
  }
 }

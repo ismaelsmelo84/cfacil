@@ -11,7 +11,7 @@ import { OrdersComponent } from './orders.component';
 
 /* Tabela de Rotas do Módulo */
 const ROUTES: Routes = [
-  {path: '', component: OrdersComponent}
+  {path: 'pedidos', component: OrdersComponent}
 ]
 
 /* Declaraçãoes do Módulo */
