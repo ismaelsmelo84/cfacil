@@ -12,7 +12,6 @@ $(document).ready(function() {
           offset: '80%'
    });
 
-
 	/* Hero slider ======================================= */
 
 	// $('#hero-slides').superslides({
@@ -73,7 +72,6 @@ $(document).ready(function() {
 		}
 	});
 
-
 	/* countdown ======================================= */
 	var days = 3;
 	var date = new Date();
@@ -100,9 +98,6 @@ $(document).ready(function() {
 		}
 	});
 
-
-
-
 	/* style switch	==============================================*/
 	$('#style-switcher h2 a').click(function(){
 		$('#style-switcher').toggleClass('open');
@@ -119,5 +114,13 @@ $(document).ready(function() {
 		return false;
 	});
 
+
+  $("#height").keyup(function() {
+      $("#height").val(this.value.match(/[0-9]*/));
+  });
+
+  $("#width").keyup(function() {
+      $("#width").val(this.value.match(/[0-9]*/));
+  });
 
 });

@@ -28,7 +28,7 @@ import { UsersService } from '../_services/users/users.service';
 @NgModule({
   declarations: [InputComponent, RadioComponent, RatingComponent, SnackbarComponent ],
   imports: [ CommonModule, FormsModule, ReactiveFormsModule ],
-  exports: [ InputComponent, RadioComponent, SnackbarComponent, RatingComponent, 
+  exports: [ InputComponent, RadioComponent, SnackbarComponent, RatingComponent,
              CommonModule, FormsModule, ReactiveFormsModule ]
 })
 

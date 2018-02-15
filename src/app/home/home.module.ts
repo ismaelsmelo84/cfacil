@@ -1,9 +1,9 @@
 /* Recursos nativos e de terceiros */
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router'
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 /* Recursos customizados */
@@ -37,7 +37,7 @@ import { UsersService } from '../_services/users/users.service';
 /* Tabela de Rotas do Módulo */
 const ROUTES: Routes = [
   {path: '', component: HomeComponent}
-]
+];
 
 /* Declarações do Módulo */
 @NgModule({
@@ -79,7 +79,8 @@ const ROUTES: Routes = [
              OrderComponent,
              HighlightsComponent,
              SearchOrderComponent,
-             SearchResultsComponent
+             SearchResultsComponent,
+             RouterModule
   ],
   providers: [
              ValidationService,
@@ -88,8 +89,7 @@ const ROUTES: Routes = [
              ParametersService,
              ProductsService,
              UsersService
-  ],
-  bootstrap: [HomeComponent]
+  ]
 })
 
 export class HomeModule { }

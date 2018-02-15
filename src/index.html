@@ -49,5 +49,16 @@
 			<script type="text/javascript" src="assets/js/project-slider.js"></script>
 			<script type="text/javascript" src="assets/js/custom.js"></script>
 			<script type="text/javascript" src="assets/js/app.js"></script>
+			<script type="text/javascript">
+				//Adicionado devido ao erro no chrome na avaliação de touch
+			  jQuery.event.special.touchstart = {
+				 setup: function( _, ns, handle ){
+				   if ( ns.includes("noPreventDefault") ) {
+				     this.addEventListener("touchstart", handle, { passive: false });
+				   } else {
+				     this.addEventListener("touchstart", handle, { passive: true });
+				   }
+				 }};
+			</script>
 	</body>
 </html>

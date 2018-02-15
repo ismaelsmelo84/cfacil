@@ -2,22 +2,25 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common'
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 /* Recursos da raíz do APP */
 import { AppComponent } from './app.component';
-import { ApplicationErrorHandler } from './app.error-handler'
+import { ApplicationErrorHandler } from './app.error-handler';
+
 import { ROUTES } from './app.routing';
 
 /* Recursos customizados */
 import { HomeModule } from './home/home.module';
 import { OrdersModule } from './orders/orders.module';
 import { ThanksModule } from './thanks/thanks.module';
+import { RetornoModule } from './retorno-pagamento/retorno-pagamento.module';
+
+import { SharedModule } from './_shared/shared.module';
 import { LoginComponent } from './_security/login/login.component';
-import { SharedModule} from './_shared/shared.module';
 
 /* Declarações do módulo */
 @NgModule({
@@ -31,15 +34,14 @@ import { SharedModule} from './_shared/shared.module';
     CommonModule,
     HttpClientModule,
     SharedModule.forRoot(),
-    RouterModule.forRoot(ROUTES, {preloadingStrategy: PreloadAllModules}),
     HomeModule,
     OrdersModule,
-    ThanksModule
+    ThanksModule,
+    RetornoModule,
+    RouterModule.forRoot(ROUTES, {preloadingStrategy: PreloadAllModules})
   ],
-  providers: [
-
-    {provide: ErrorHandler, useClass: ApplicationErrorHandler}
-  ],
-  bootstrap: [AppComponent]
+  exports: [ RouterModule ],
+  providers: [{ provide: ErrorHandler, useClass: ApplicationErrorHandler }],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

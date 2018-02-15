@@ -3,27 +3,126 @@
 
     <!--Cabeçalho -->
     <header class="section-header text-center">
-      <h2>{{searchOrder.ds_cabecalho}}</h2>
+      <h3>{{searchOrder.ds_cabecalho}}</h3>
       <h4>{{searchOrder.ds_descricao}}</h4>
     </header>
 
     <!--Form -->
     <div class="row">
-      <form id="searchOrder-form" action="index.html" method="POST" class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 ">
+      <form id="searchOrder-form" [formGroup]="searchForm" class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1" novalidate (ngSubmit)="onFormSubmit()">
 
         <!--Campo email -->
         <div class="input-group">
-          <input id="searchOrder-mail" name="email" placeholder="Informe seu e-mail" class="form-control input-lg" type="email" >
+
+          <label for="no_emailBusca" class="control-label"></label>
+          <input id="no_emailBusca" name="no_emailBusca" placeholder="Informe seu e-mail" class="form-control input-lg" type="email" formControlName="no_emailBusca">
+
           <span class="input-group-btn">
-            <button name="submit" type="submit" class="btn btn-store" data-toggle="modal" data-target="#modalResultados">{{searchOrder.no_botao}}</button>
+            <button name="submitSearch" type="submit" class="btn btn-store" data-toggle="modal" data-target="#modalSearch" [disabled]="!searchForm.valid">{{searchOrder.no_botao}}</button>
           </span>
+
         </div>
+        <control-messages [control]="searchForm.controls.no_emailBusca"></control-messages>
 
         <!--Opção -->
-        <input type="hidden" name="submitted" id="searchOrderSubmitted" value="true">
+        <input type="hidden" name="submitted3" id="submitted3" value="true">
 
       </form>
     </div>
 
   </div>
 </section>
+
+<div id="modalSearch" class="modal fade text-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="color-bg">
+        <div class="container">
+          <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-md-12 color-bg light-typo" id="9modal-bar">
+              <h2 class="pull-left">RESULTADOS DA PESQUISA</h2>
+              <a class="close pull-right" href="#" data-dismiss="modal" ><i class="icon-close"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row ">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div>
+              <h3></h3>
+              <p>Resultados da sua pesquisa pelo e-mail: {{getFilter()}}.</p>
+            </div>
+          </div>
+            <h2>Meus últimos pedidos</h2>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="table-responsive">
+                    <table summary="This table shows how to create responsive tables using Bootstrap's default functionality" class="table table-bordered table-hover">
+                      <caption class="text-center">Acompanhe abaixo seus últimos 5 pedidos no <a href="https://getbootstrap.com/css/#tables-responsive" target="_blank">CortinaFácil</a> (para informações sobre demais pedidos, por favor, entre em contato):</caption>
+                      <thead>
+                        <tr>
+                          <th>Pedido</th>
+                          <th>Descrição</th>
+                          <th>Qtde de Ítens</th>
+                          <th>Valor</th>
+                          <th>Situação</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>123</td>
+                          <td>Item 1: xxxx, Item 2: xxxx</td>
+                          <td>5</td>
+                          <td>1231,95</td>
+                          <td>Pago</td>
+                        </tr>
+                        <tr>
+                          <td>112</td>
+                          <td>Item 1: xxxx, Item 2: xxxx</td>
+                          <td>4</td>
+                          <td>1391,95</td>
+                          <td>Abandono</td>
+                        </tr>
+                        <tr>
+                          <td>63</td>
+                          <td>Item 1: xxxx, Item 2: xxxx</td>
+                          <td>2</td>
+                          <td>243.2</td>
+                          <td>Pago</td>
+                        </tr>
+                        <tr>
+                          <td>45</td>
+                          <td>Item 1: xxxx, Item 2: xxxx, Item 3: xxxx, ...</td>
+                          <td>11</td>
+                          <td>2390.10</td>
+                          <td>Pago</td>
+                        </tr>
+                        <tr>
+                          <td>12</td>
+                          <td>Item 1: xxxx, Item 2: xxxx, Item 3: xxxx</td>
+                          <td>3</td>
+                          <td>423,56</td>
+                          <td>Pago</td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-center">Dados recuperados conforme nosso política de privacidade.</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div><!--end of .table-responsive-->
+                </div>
+              </div>
+            </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 text-center" >
+            <a class="btn btn-store" href="#" data-dismiss="modal">Retornar ao site</a><br><br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

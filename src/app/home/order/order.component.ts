@@ -1,12 +1,24 @@
+/* Recursos nativos ou de terceiros */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Item } from './order.model'
-import { tecidoPrincipal, tecidoBlackout, tipoSuporte, tableShipping, parGerais } from '../data';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
+/* Recursos customizados */
 import { ValidationService } from '../../_components/validator/validation.service';
 
-//import { OrdersService } from '../../_services/orders/orders.service'
+/* Tipos de dados */
+import { Item,
+         OrderCheckout } from './order.model';
+
+/* Conjuntos de dados */
+import { tecidoPrincipal,
+         tecidoBlackout,
+         tipoSuporte,
+         tableShipping,
+         parGerais } from '../data';
 
 @Component({
   selector: 'app-home-order',
@@ -16,229 +28,345 @@ import { ValidationService } from '../../_components/validator/validation.servic
 
 export class OrderComponent implements OnInit {
 
- user: string
+ pagseguroURL = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
+                'email=cortinafacil2017@gmail.com&token=A28A32CA37EF45A68551827A7414085F';
+ urlPagamento = 'https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=';
 
- //Cadastros
  tecidoPrincipal: any;
  tecidoBlackout: any;
  tipoSuporte: any;
  tableShipping: any;
  parGerais: any;
 
- orderForm: FormGroup
- items: any[] = []
+ orderForm: FormGroup;
+ items: Item[] = [];
+ orderCheckout: OrderCheckout;
 
- /*
- orders: any; //caputura do serviço TESTE - REVISAR
- registro: any
- found: boolean */
+ constructor(private formBuilder: FormBuilder, private http: HttpClient) {}
 
- //private ordersService: OrdersService,
- //HTTP tmb
- constructor(private formBuilder: FormBuilder) {
-
-   Object.assign(this, {
-     tecidoPrincipal, tecidoBlackout, tipoSuporte, tableShipping, parGerais
-   });
- }
-
+ /* Inicializa os objetos da classe */
  ngOnInit() {
-   /*
-   this.getTestAPI()
-   this.orders = this.ordersService.searchOrder() //caputura do serviço TESTE - REVISAR
-   this.ordersService.cast.subscribe(user => this.user = user)*/
 
-   this.orderForm = this.formBuilder.group({
-     items: this.formBuilder.array([ this.createItem() ]),
-     qt_itens: 0,
-     vr_frete: 0,
-     vr_total: 0,
-     no_cliente: ['', [Validators.required, Validators.minLength(3)]],
-     nu_telefone: ['', [Validators.required, Validators.minLength(9)]],
-     no_email: ['', [Validators.required, ValidationService.emailValidator]],
-     no_logradouro: ['', [Validators.required, Validators.minLength(3)]],
-     nu_numero: ['', Validators.required],
-     no_bairro: ['', [Validators.required, Validators.minLength(3)]],
-     no_municipio: ['', [Validators.required, Validators.minLength(3)]],
-     sg_uf: ['RS', Validators.required],
-     nu_cep: ['', [Validators.required, Validators.minLength(2)]]
-   });
- }
- /*
- onNamekeyUp(event: any) {
-   console.log(event.target.value)
+    this.createOrderForm()
+
+    let orderFormGroups = this.items.map(item => this.formBuilder.group(item));
+    let orderFormArray = this.formBuilder.array(orderFormGroups);
+
+    this.orderForm.setControl('items', orderFormArray);
+
+    /* Inicialização dos objetos externos */
+    Object.assign(this, {
+      tecidoPrincipal,
+      tecidoBlackout,
+      tipoSuporte,
+      tableShipping,
+      parGerais
+    });
+
+    // Cria primeiro item do pedido
+    this.onAddItem();
  }
 
- getTestAPI() {
-   let termoPesquisa: string = ''
-   this.httpClient.get('https://my-json-server.typicode.com/typicode/demo/profile' + termoPesquisa)
-    .subscribe(
-      (data: any[]) => {
-        if(data.length) {
-          this.registro = data[0]
-          this.found = true
-        }
-      }
-    )
- }
+ /* Inicializa o formulário de pedido */
+ private createOrderForm() {
+    this.orderForm = this.formBuilder.group({
+      items: this.formBuilder.array([]),
+      no_cliente: [ '', [Validators.required, Validators.minLength(3)]],
+      nu_telefone: [ '', [Validators.required, Validators.minLength(9)]],
+      no_email: [ '', [Validators.required, ValidationService.emailValidator]],
+      no_logradouro: [ '', [Validators.required, Validators.minLength(3)]],
+      nu_numero: [ '', Validators.required],
+      no_bairro: [ '', [Validators.required, Validators.minLength(3)]],
+      no_municipio: [ '', [Validators.required, Validators.minLength(3)]],
+      sg_uf: [ 'RS', Validators.required],
+      nu_cep: [ '', [Validators.required, Validators.minLength(2)]],
+      qt_itens: 0,
+      vr_frete: 0,
+      vr_total: 0
+    });
+  }
 
- postTestAPI() {
-   let data: any = {}
-   this.httpClient.post('https://my-json-server.typicode.com/typicode/demo/profile/', data)
-    .subscribe( (data: any) => { console.log(data) }
- )}
-*/
-
- public createItem(): FormGroup {
-   return this.formBuilder.group({
-     tpPrincipal: [0],
-     tpBlackout: [0],
-     height: [120],
-     width: [200],
-     tpSupport: [0],
-     qt: [1],
-     priceUnit: [0],
-     totalItem: [0]
-   });
- }
-
- //Possibilita incluir itens no pedido
- public addItem(): void {
-   var it = this.orderForm.get('items') as FormArray
-   it.push(this.createItem())
- }
-
- //Possibilita excluir itens no pedido
- public removeRow(i: number): void {
-   let it = <FormArray>this.orderForm.get('items')
-   it.removeAt(i)
- }
-
- //Possibilita o cálculo de uma cortina em específico, conforme o seu tipo
+ /* Cálculo para averiguar o custo de 1 unidade de cortina, por tipo */
  public getCalculoCortinaGenerico(i: number, tp: string) {
 
-   var prod: number = 0 //Numero ID do produto
-   var pmt: number = 0 //Preço do metro
-   var l: number = this.orderForm.controls.items.value[i].width //Largura
-   var a: number = this.orderForm.controls.items.value[i].height //Altura
-   var price: number = 0 //Preço
+   /* Define variáveis */
+   let prod = 0;                                                             // Numero ID do produto
+   let pmt = 0;                                                              // Preço do metro
+   let l: number = this.orderForm.controls.items.value[i].width;             // Largura
+   let a: number = this.orderForm.controls.items.value[i].height;            // Altura
+   let price = 0;                                                            // Preço
 
-   //Identifica o tipo de cortina informado e calcula o preço
+   /* Identifica o tipo de cortina */
    if ( tp === 'Principal' )  {
 
-     prod = this.orderForm.controls.items.value[i].tpPrincipal
-     pmt = this.obterPrecoTecidoPrincipal(prod)
+     prod = this.orderForm.controls.items.value[i].tpPrincipal;
+     pmt = this.obterPrecoTecidoPrincipal(prod);
 
-     if(prod > 0) {
-       if(a <= 280) {
-         price = l * 2.5 * (pmt / 100)
-       } else if(a > 280) {
-         price = a * (l / 120) * (pmt / 100)
+     if (prod > 0) {
+       if (a <= 280) {
+         price = l * 2.5 * (pmt / 100);
+       } else if (a > 280) {
+         price = a * (l / 120) * (pmt / 100);
        }
      }
 
    } else if ( tp === 'Blackout' )  {
 
-     prod = this.orderForm.controls.items.value[i].tpBlackout
-     pmt = this.obterPrecoTecidoBlackout(prod)
+     prod = this.orderForm.controls.items.value[i].tpBlackout;
+     pmt = this.obterPrecoTecidoBlackout(prod);
 
-     if(prod > 0) {
-       if(a <= 280) {
-         price = l * 2 * (pmt / 100)
-       } else if(a > 280) {
-         price = a * (l / 150) * (pmt / 100)
+     if (prod > 0) {
+       if (a <= 280) {
+         price = l * 2 * (pmt / 100);
+       } else if (a > 280) {
+         price = a * (l / 150) * (pmt / 100);
        }
      }
    }
 
-   return price
+   /* Retorna o preço correspondente */
+   return price;
  }
 
- //Possibilita calcular o preço total de um item do pedido
+ /* Calcular o preço total de um item do pedido */
  public getCalculoCortina(i: number) {
 
-   var p: number = this.orderForm.controls.items.value[i].tpPrincipal
-   var b: number = this.orderForm.controls.items.value[i].tpBlackout
-   var qt: number = this.orderForm.controls.items.value[i].qt
-   var total: number = 0
+   /* Define variáveis */
+   let p: number = this.orderForm.controls.items.value[i].tpPrincipal;
+   let b: number = this.orderForm.controls.items.value[i].tpBlackout;
+   let qt: number = this.orderForm.controls.items.value[i].qt;
+   let total: number = 0;
 
-   //Calcular a cortina principal, se houver
-   if(p > 0) {
-     total = this.getCalculoCortinaGenerico(i,'Principal')
+   /* Calcula a cortina principal, se adicionada pelo usuário */
+   if (p > 0) {
+     total = this.getCalculoCortinaGenerico( i, 'Principal' );
    }
 
-   //Somar o blackout, se existir
-   if(b > 0) {
-     total = total + this.getCalculoCortinaGenerico(i,'Blackout')
+   /* Soma o blackout, se adicionado pelo usuário */
+   if (b > 0) {
+     total = total + this.getCalculoCortinaGenerico( i, 'Blackout' );
    }
 
-   //Total unitário
-   this.orderForm.controls.items.value[i].priceUnit = total
+   /* Calcula totais do item */
+   this.orderForm.controls.items.value[i].priceUnit = total;
+   total = total * qt;
+   this.orderForm.controls.items.value[i].totalItem = total;
 
-   //Total de cada linha de item
-   total = total * qt
-   this.orderForm.controls.items.value[i].totalItem = total
-
-   //Retorna total
-   return total
+   /* Retorna o total do item */
+   return total;
  }
 
- //Obtem preço do tecido para a cortina principal
+ /* Obtem preço do tecido da cortina principal */
  private obterPrecoTecidoPrincipal(i: number) {
-   return this.tecidoPrincipal[i]['price']
+
+   return this.tecidoPrincipal[i]['price'];
  }
 
- //Obtem preço do tecido para a cortina blackout
+ /* Obtem preço do tecido da cortina blackout */
  private obterPrecoTecidoBlackout(i: number) {
-   return this.tecidoBlackout[i]['price']
+
+   return this.tecidoBlackout[i]['price'];
  }
 
- //Obtem a quantidade de itens do pedido
+ /* Obtem a quantidade de itens no pedido */
  public getQtItens() {
+
    this.orderForm.controls.qt_itens = this.orderForm.controls.items.value.reduce( function( prevVal, elem ) {
         return prevVal + (elem.qt);
       }, 0 );
 
-   return this.orderForm.controls.qt_itens
+   return this.orderForm.controls.qt_itens;
  }
 
- //Calcula o valor do frete com base na UF e num valor fixo por UF
+ /* Calcula o valor do frete com base na UF */
  public getFrete(): number {
 
-   var i: number
+   var i: number;
 
    if (this.orderForm.controls.sg_uf.value) {
-     i = Number(this.orderForm.controls.qt_itens) * this.getTarifaFrete(this.orderForm.controls.sg_uf.value)
+     i = Number(this.orderForm.controls.qt_itens) * this.getTarifaFrete(this.orderForm.controls.sg_uf.value);
    } else {
      i = 0;
    }
 
-   this.orderForm.controls.vr_frete.setValue(i)
+   this.orderForm.controls.vr_frete.setValue(i);
 
    return i;
  }
 
+ /* Pega tarifa de frete aplicável à UF */
  private getTarifaFrete(uf: string): number {
-     var i = this.tableShipping.filter(item => item.uf == uf)
-     return i[0].price
+
+  let i = this.tableShipping.filter(item => item.uf === uf);
+   return i[0].price;
  }
 
- //Calcula o total do pedido, incluindo frete
+ /* Calcula o total do pedido, já com frete */
  public getSomaTotal(): number {
+
    this.orderForm.controls.vr_total = this.orderForm.controls.items.value.reduce( function( prevVal, elem ) {
         return prevVal + (elem.priceUnit * elem.qt);
       }, 0 );
 
-   var total = Number(this.orderForm.controls.vr_total)
+      let total = Number(this.orderForm.controls.vr_total);
 
-   return total
+   return total;
  }
 
- //Salvar pedido
- saveOrder() {
-/*   if (this.orderForm.dirty && this.orderForm.valid) {
-     console.log(`Oi`);
-   }*/
-   console.log('Oi')
+ /* Inclui um item do pedido na tabela */
+ public onAddItem () {
+
+  let fg = this.formBuilder.group(new Item());
+  this.itemFormArray.push(fg);
  }
+
+ /* Retorna itens como FormArray */
+ public get itemFormArray(): FormArray{
+  return this.orderForm.get('items') as FormArray;
+ }
+
+ /* Exclui um item do pedido da tabela */
+ public onRemoveItem (index) {
+
+  let it: any = this.orderForm.controls['items']
+  it.removeAt(index);
+ }
+
+ /* Valida preenchiemnto de campos, exceto da tabela de items, já validados */
+ getValidation(): boolean {
+
+   if (this.orderForm.controls.no_cliente.invalid ||
+       this.orderForm.controls.nu_telefone.invalid ||
+       this.orderForm.controls.no_email.invalid ||
+       this.orderForm.controls.no_logradouro.invalid ||
+       this.orderForm.controls.nu_numero.invalid ||
+       this.orderForm.controls.no_bairro.invalid ||
+       this.orderForm.controls.no_municipio.invalid ||
+       this.orderForm.controls.sg_uf.invalid ||
+       this.orderForm.controls.nu_cep.invalid ) {
+
+       return true;
+   } else {
+       return false; }
+ }
+
+ /* Submete pedido e realiza integração com o PagSeguro  */
+ public onOrderFormSubmit() {
+
+      /* Definir variáveis */
+      let item: Item[] = this.orderForm.controls.items.value;
+
+      /* Preencher objeto do pedido */
+      this.orderCheckout = new OrderCheckout(
+        item,
+        this.orderForm.controls.no_cliente.value,
+        this.orderForm.controls.nu_telefone.value,
+        this.orderForm.controls.no_email.value,
+        this.orderForm.controls.no_logradouro.value,
+        this.orderForm.controls.nu_numero.value,
+        this.orderForm.controls.no_bairro.value,
+        this.orderForm.controls.no_municipio.value,
+        this.orderForm.controls.sg_uf.value,
+        this.orderForm.controls.nu_cep.value,
+        this.orderForm.controls.qt_itens.value,
+        this.orderForm.controls.vr_frete.value,
+        this.orderForm.controls.vr_total.value
+      );
+
+      /* Criar JSON a partir do objeto  */
+      let data = JSON.stringify(this.orderCheckout);
+  	  console.log('-----PEDIDO em formato JSON-----');
+  	  console.log(data);
+
+      /* Enviar para o backend (CHAMAR SERVICE) */
+      //TO DO
+
+      /* Definir variáveis para onstruir XML de integração com o PagSeguro */
+      let emp = '<<credentials to the webservice>>';
+      let login = '<<credentials to the webservice>>';
+      let pass = '<<credentials to the webservice>>';
+      let id = '<<credentials to the webservice>>';
+
+      /* Definir template e conteúdo do XML  */
+      let body: string = '<?xml version=\"1.0\"?><checkout>\r\n' +
+        '<sender>\r\n' +
+          '<name>\"Jose Comprador\"</name>\r\n' +
+          '<email>\"comprador@uol.com.br\"</email>\r\n' +
+          '<phone>\r\n' +
+            '<areaCode>\"99\"</areaCode>\r\n' +
+            '<number>\"99999999\"</number>\r\n' +
+          '</phone>\r\n' +
+          '<ip>\"1.1.1.1\"</ip>\r\n' +
+          '<documents>\r\n' +
+            '<document>\r\n' +
+              '<type>\"CPF\"</type>\r\n' +
+              '<value>\"11475714734\"</value>\r\n' +
+            '</document>\r\n' +
+          '</documents>\r\n' +
+        '</sender>\r\n' +
+        '<currency>\"BRL\"</currency>\r\n' +
+        '<items>\r\n' +
+          '<item>\r\n' +
+            '<id>\"0001\"</id>\r\n' +
+            '<description>\"Produto PagSeguroI\"</description>\r\n' +
+            '<amount>\"99999.99\"</amount>\r\n' +
+            '<quantity>\"1\"</quantity>\r\n' +
+            '<weight>\"10\"</weight>\r\n' +
+            '<shippingCost>\"1.00\"</shippingCost>\r\n' +
+          '</item>\r\n' +
+        '</items>\r\n' +
+        '<redirectURL>\"http://lojamodelo.com.br/return.html\"</redirectURL>\r\n' +
+        '<extraAmount>\"10.00\"</extraAmount>\r\n' +
+        '<reference>\"REF1234\"</reference>\r\n' +
+        '<shipping>\r\n' +
+          '<address>\r\n' +
+            '<street>\"Av. PagSeguro\"</street>\r\n' +
+            '<number>\"9999\"</number>\r\n' +
+            '<complement>\"99o andar\"</complement>\r\n' +
+            '<district>\"Jardim Internet\"</district>\r\n' +
+            '<city>\"Cidade Exemplo\"</city>\r\n' +
+            '<state>\"SP\"</state>\r\n' +
+            '<country>\"BRA\"</country>\r\n' +
+            '<postalCode>\"99999999\"</postalCode>\r\n' +
+          '</address>\r\n' +
+          '<type>\"1\"</type>\r\n' +
+          '<cost>\"1.00\"</cost>\r\n' +
+          '<addressRequired>\"true\"</addressRequired>\r\n' +
+        '</shipping>\r\n' +
+        '<maxAge>\"999999999\"</maxAge>\r\n' +
+        '<maxUses>\"999</maxUses>\r\n' +
+        '<receiver>\r\n' +
+          '<email>\"suporte@lojamodelo.com.br\"</email>\r\n' +
+        '</receiver>\r\n' +
+      '</checkout>';
+
+      console.log(body);
+
+      const urltest = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
+                      'email=suporte@lojamodelo.com.br&token=57BE455F4EC148E5A54D9BB91C5AC12C';
+      const url = this.pagseguroURL;
+
+      /* Enviar XML ao PagSeguro, retornando possíveis erros */
+      this.http.post(urltest, body, {
+        headers: new HttpHeaders()
+        .set('Content-Type', 'text/xml')
+        .append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
+        .append('Access-Control-Allow-Origin', '*')
+        .append('Access-Control-Allow-Headers',
+                'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'), responseType:'text'})
+        .subscribe(data => {
+        console.log(data);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.log('Ocorreu um erro na integração:', err.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.log(`Retornado o código ${err.status}, cujo conteúdo relacionado é: ${err.error}`);
+        }
+      }
+    );
+  }
 }

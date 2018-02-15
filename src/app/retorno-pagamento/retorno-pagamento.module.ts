@@ -1,22 +1,22 @@
 /* Recursos nativos e de terceiros */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 /* Recursos customizados */
-import { OrdersComponent } from './orders.component';
+import { RetornoComponent } from './retorno-pagamento.component';
 
 /* Tabela de Rotas do Módulo */
 const ROUTES: Routes = [
-  { path: 'pedidos', component: OrdersComponent }
+  {path: 'retorno-pagamento', component: RetornoComponent }
 ];
 
-/* Declaraçãoes do Módulo */
+/* Declarações do Módulo */
 @NgModule({
-  declarations: [ OrdersComponent ],
+  declarations: [ RetornoComponent ],
   imports: [
              BrowserModule,
              FormsModule,
@@ -24,7 +24,7 @@ const ROUTES: Routes = [
              HttpClientModule,
              RouterModule.forChild(ROUTES)
   ],
-  exports: [ OrdersComponent, RouterModule ]
+  exports: [ RetornoComponent, RouterModule ]
 })
 
-export class OrdersModule {}
+export class RetornoModule { }
