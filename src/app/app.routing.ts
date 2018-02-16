@@ -17,6 +17,5 @@ export const ROUTES: Routes = [
   { path: 'obrigado', loadChildren: './thanks/thanks.module#ThanksModule' },
   { path: 'retorno-pagamento', loadChildren: './retorno-pagamento/retorno-pagamento.module#RetornoModule' },
   { path: 'pedidos', loadChildren: './orders/orders.module#OrdersModule',
-    canLoad: [LoggedInGuard], canActivate: [LoggedInGuard]  },
-  { path: '**', redirectTo: '/' }
-];
+    canLoad: [ LoggedInGuard ], canActivate: [ LoggedInGuard ]  },
+  { path: '**', redirectTo: '/' } ];

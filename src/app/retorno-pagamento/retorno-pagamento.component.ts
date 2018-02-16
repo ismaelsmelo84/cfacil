@@ -9,10 +9,7 @@ import { Routes } from '@angular/router';
 
 export class RetornoComponent implements OnInit {
 
- constructor() {
- }
+ constructor() {}
 
- ngOnInit() {
-
- }
+ ngOnInit() {}
 }

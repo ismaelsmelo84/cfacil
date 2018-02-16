@@ -9,8 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 /* Recursos customizados */
 import { HomeComponent } from './home.component';
 import { AboutComponent } from './about/about.component';
-﻿import { OrderComponent } from './order/order.component';
-﻿import { ContactComponent } from './contact/contact.component';
+import { OrderComponent } from './order/order.component';
+import { ContactComponent } from './contact/contact.component';
 import { HighlightsComponent } from './highlights/highlights.component';
 import { NewsComponent } from './news/news.component';
 import { ProductsComponent } from './products/products.component';
@@ -35,9 +35,7 @@ import { ProductsService } from '../_services/products/products.service';
 import { UsersService } from '../_services/users/users.service';
 
 /* Tabela de Rotas do Módulo */
-const ROUTES: Routes = [
-  {path: '', component: HomeComponent}
-];
+const ROUTES: Routes = [ { path: '', component: HomeComponent } ];
 
 /* Declarações do Módulo */
 @NgModule({
@@ -46,8 +44,7 @@ const ROUTES: Routes = [
              FormsModule, ReactiveFormsModule,
              CommonModule,
              HttpClientModule,
-             RouterModule.forChild(ROUTES)
-  ],
+             RouterModule.forChild( ROUTES ) ],
   declarations: [
              HeaderComponent,
              FooterComponent,
@@ -64,8 +61,7 @@ const ROUTES: Routes = [
              HighlightsComponent,
              SearchOrderComponent,
              SearchResultsComponent,
-             ControlMessagesComponent
-  ],
+             ControlMessagesComponent ],
   exports: [
              HomeComponent,
              TermsComponent,
@@ -80,16 +76,14 @@ const ROUTES: Routes = [
              HighlightsComponent,
              SearchOrderComponent,
              SearchResultsComponent,
-             RouterModule
-  ],
+             RouterModule ],
   providers: [
              ValidationService,
              OrdersService,
              PagseguroService,
              ParametersService,
              ProductsService,
-             UsersService
-  ]
+             UsersService ]
 })
 
 export class HomeModule { }

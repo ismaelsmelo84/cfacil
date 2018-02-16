@@ -5,11 +5,12 @@ export class SOrder {
   no_emailBusca: string;
   results: ResultItem [];
 
-  constructor(no_emailBusca: string) {
+  constructor( no_emailBusca: string ) {
     this.no_emailBusca = no_emailBusca;
   }
 
   public getResults(): ResultItem {
+    // tslint:disable-next-line:prefer-const
     let results = new ResultItem();
     return results;
   }
@@ -19,7 +20,7 @@ export class SOrder {
     return true;
   }
 
-  public getReturnOrderStatus(i: number): string {
+  public getReturnOrderStatus( i: number ): string {
 
     return 'Realizado';
   }
@@ -31,7 +32,5 @@ export class ResultItem {
   orderCheckout: OrderCheckout;
   ic_status: string;
 
-  constructor() {
-
-  }
+  constructor() {}
 }

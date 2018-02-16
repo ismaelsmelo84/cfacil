@@ -22,7 +22,7 @@ const ROUTES: Routes = [
              FormsModule,
              CommonModule,
              HttpClientModule,
-             RouterModule.forChild(ROUTES)
+             RouterModule.forChild( ROUTES )
   ],
   exports: [ OrdersComponent, RouterModule ]
 })

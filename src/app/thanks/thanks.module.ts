@@ -17,13 +17,11 @@ const ROUTES: Routes = [
 /* Declarações do Módulo */
 @NgModule({
   declarations: [ ThanksComponent ],
-  imports: [
-             BrowserModule,
+  imports: [ BrowserModule,
              FormsModule,
              CommonModule,
              HttpClientModule,
-             RouterModule.forChild(ROUTES)
-  ],
+             RouterModule.forChild(ROUTES) ],
   exports: [ ThanksComponent, RouterModule ]
 })
 

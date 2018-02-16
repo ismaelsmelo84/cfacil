@@ -29,9 +29,9 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
 
     this.contactForm = this.fb.group({
-      no_contato: this.fb.control( '', [Validators.required, Validators.minLength(3)]),
-      no_contatoEmail: this.fb.control( '', Validators.compose([Validators.required, ValidationService.emailValidator])),
-      no_contatoAssunto: this.fb.control( '', [Validators.required, Validators.minLength(5)]),
+      no_contato: this.fb.control( '', [ Validators.required, Validators.minLength(3) ]),
+      no_contatoEmail: this.fb.control( '', Validators.compose([Validators.required, ValidationService.emailValidator ])),
+      no_contatoAssunto: this.fb.control( '', [ Validators.required, Validators.minLength(5) ]),
       tx_contatoMsg: this.fb.control( '' )
     });
 
@@ -42,7 +42,7 @@ export class ContactComponent implements OnInit {
 
   public onFormSubmit() {
 
-     if (this.contactForm.dirty && this.contactForm.valid) {
+     if ( this.contactForm.dirty && this.contactForm.valid ) {
 
        this.contact = new Contact(
          this.contactForm.controls.no_contato.value,
@@ -51,9 +51,9 @@ export class ContactComponent implements OnInit {
          this.contactForm.controls.tx_contatoMsg.value
        );
 
-       const data = JSON.stringify(this.contact);
-        console.log('-----CONTATO em formato JSON-----');
-        console.log(data);
+       const data = JSON.stringify( this.contact );
+        console.log( '-----CONTATO em formato JSON-----' );
+        console.log( data );
 
        // this.notificationService.notify(`Você nos enviou uma mensagem com o assunto ${this.contactForm.controls.no_contatoAssunto.value}`)
      }

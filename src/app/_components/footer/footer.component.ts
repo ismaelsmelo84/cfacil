@@ -7,12 +7,11 @@ import { Component, OnInit } from '@angular/core';
 
 export class FooterComponent implements OnInit {
 
-  hero: string
+  hero: string;
 
   constructor() {
 
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
  }

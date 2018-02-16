@@ -38,10 +38,10 @@ import { LoginComponent } from './_security/login/login.component';
     OrdersModule,
     ThanksModule,
     RetornoModule,
-    RouterModule.forRoot(ROUTES, {preloadingStrategy: PreloadAllModules})
+    RouterModule.forRoot( ROUTES, { preloadingStrategy: PreloadAllModules } )
   ],
   exports: [ RouterModule ],
-  providers: [{ provide: ErrorHandler, useClass: ApplicationErrorHandler }],
+  providers: [ { provide: ErrorHandler, useClass: ApplicationErrorHandler } ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

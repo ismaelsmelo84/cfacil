@@ -35,19 +35,19 @@ export class OrderCheckout {
   vr_frete: number;
   vr_total: number;
 
-  constructor(items: Item[],
-              no_cliente: string,
-              nu_telefone: string,
-              no_email: string,
-              no_logradouro: string,
-              nu_numero: string,
-              no_bairro: string,
-              no_municipio: string,
-              sg_uf: string,
-              nu_cep: string,
-              qt_itens: number,
-              vr_frete: number,
-              vr_total: number) {
+  constructor( items: Item[],
+               no_cliente: string,
+               nu_telefone: string,
+               no_email: string,
+               no_logradouro: string,
+               nu_numero: string,
+               no_bairro: string,
+               no_municipio: string,
+               sg_uf: string,
+               nu_cep: string,
+               qt_itens: number,
+               vr_frete: number,
+               vr_total: number ) {
 
     this.items = items;
     this.no_logradouro = no_logradouro;

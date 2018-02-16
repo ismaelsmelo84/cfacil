@@ -42,15 +42,18 @@ export class OrderComponent implements OnInit {
  items: Item[] = [];
  orderCheckout: OrderCheckout;
 
- constructor(private formBuilder: FormBuilder, private http: HttpClient) {}
+ constructor( private formBuilder: FormBuilder,
+              private http: HttpClient ) {}
 
  /* Inicializa os objetos da classe */
  ngOnInit() {
 
-    this.createOrderForm()
+    this.createOrderForm();
 
-    let orderFormGroups = this.items.map(item => this.formBuilder.group(item));
-    let orderFormArray = this.formBuilder.array(orderFormGroups);
+    // tslint:disable-next-line:prefer-const
+    let orderFormGroups = this.items.map( item => this.formBuilder.group( item ) );
+    // tslint:disable-next-line:prefer-const
+    let orderFormArray = this.formBuilder.array( orderFormGroups );
 
     this.orderForm.setControl('items', orderFormArray);
 
@@ -71,15 +74,15 @@ export class OrderComponent implements OnInit {
  private createOrderForm() {
     this.orderForm = this.formBuilder.group({
       items: this.formBuilder.array([]),
-      no_cliente: [ '', [Validators.required, Validators.minLength(3)]],
-      nu_telefone: [ '', [Validators.required, Validators.minLength(9)]],
-      no_email: [ '', [Validators.required, ValidationService.emailValidator]],
-      no_logradouro: [ '', [Validators.required, Validators.minLength(3)]],
-      nu_numero: [ '', Validators.required],
-      no_bairro: [ '', [Validators.required, Validators.minLength(3)]],
-      no_municipio: [ '', [Validators.required, Validators.minLength(3)]],
+      no_cliente: [ '', [ Validators.required, Validators.minLength(3) ] ],
+      nu_telefone: [ '', [ Validators.required, Validators.minLength(9) ] ],
+      no_email: [ '', [ Validators.required, ValidationService.emailValidator ] ],
+      no_logradouro: [ '', [ Validators.required, Validators.minLength(3) ] ],
+      nu_numero: [ '', Validators.required ],
+      no_bairro: [ '', [ Validators.required, Validators.minLength(3) ] ],
+      no_municipio: [ '', [ Validators.required, Validators.minLength(3) ] ],
       sg_uf: [ 'RS', Validators.required],
-      nu_cep: [ '', [Validators.required, Validators.minLength(2)]],
+      nu_cep: [ '', [ Validators.required, Validators.minLength(2) ] ],
       qt_itens: 0,
       vr_frete: 0,
       vr_total: 0
@@ -87,12 +90,15 @@ export class OrderComponent implements OnInit {
   }
 
  /* Cálculo para averiguar o custo de 1 unidade de cortina, por tipo */
- public getCalculoCortinaGenerico(i: number, tp: string) {
+ public getCalculoCortinaGenerico( i: number,
+                                   tp: string ) {
 
    /* Define variáveis */
    let prod = 0;                                                             // Numero ID do produto
    let pmt = 0;                                                              // Preço do metro
+   // tslint:disable-next-line:prefer-const
    let l: number = this.orderForm.controls.items.value[i].width;             // Largura
+   // tslint:disable-next-line:prefer-const
    let a: number = this.orderForm.controls.items.value[i].height;            // Altura
    let price = 0;                                                            // Preço
 
@@ -100,26 +106,26 @@ export class OrderComponent implements OnInit {
    if ( tp === 'Principal' )  {
 
      prod = this.orderForm.controls.items.value[i].tpPrincipal;
-     pmt = this.obterPrecoTecidoPrincipal(prod);
+     pmt = this.obterPrecoTecidoPrincipal( prod );
 
-     if (prod > 0) {
-       if (a <= 280) {
-         price = l * 2.5 * (pmt / 100);
-       } else if (a > 280) {
-         price = a * (l / 120) * (pmt / 100);
+     if ( prod > 0 ) {
+       if ( a <= 280 ) {
+         price = l * 2.5 * ( pmt / 100 );
+       } else if ( a > 280 ) {
+         price = a * ( l / 120 ) * ( pmt / 100 );
        }
      }
 
    } else if ( tp === 'Blackout' )  {
 
      prod = this.orderForm.controls.items.value[i].tpBlackout;
-     pmt = this.obterPrecoTecidoBlackout(prod);
+     pmt = this.obterPrecoTecidoBlackout( prod );
 
-     if (prod > 0) {
-       if (a <= 280) {
-         price = l * 2 * (pmt / 100);
-       } else if (a > 280) {
-         price = a * (l / 150) * (pmt / 100);
+     if ( prod > 0 ) {
+       if ( a <= 280 ) {
+         price = l * 2 * ( pmt / 100 );
+       } else if ( a > 280 ) {
+         price = a * ( l / 150 ) * ( pmt / 100 );
        }
      }
    }
@@ -129,21 +135,24 @@ export class OrderComponent implements OnInit {
  }
 
  /* Calcular o preço total de um item do pedido */
- public getCalculoCortina(i: number) {
+ public getCalculoCortina( i: number ) {
 
    /* Define variáveis */
+   // tslint:disable-next-line:prefer-const
    let p: number = this.orderForm.controls.items.value[i].tpPrincipal;
+   // tslint:disable-next-line:prefer-const
    let b: number = this.orderForm.controls.items.value[i].tpBlackout;
+   // tslint:disable-next-line:prefer-const
    let qt: number = this.orderForm.controls.items.value[i].qt;
-   let total: number = 0;
+   let total = 0;
 
    /* Calcula a cortina principal, se adicionada pelo usuário */
-   if (p > 0) {
+   if ( p > 0 ) {
      total = this.getCalculoCortinaGenerico( i, 'Principal' );
    }
 
    /* Soma o blackout, se adicionado pelo usuário */
-   if (b > 0) {
+   if ( b > 0 ) {
      total = total + this.getCalculoCortinaGenerico( i, 'Blackout' );
    }
 
@@ -157,13 +166,13 @@ export class OrderComponent implements OnInit {
  }
 
  /* Obtem preço do tecido da cortina principal */
- private obterPrecoTecidoPrincipal(i: number) {
+ private obterPrecoTecidoPrincipal( i: number ) {
 
    return this.tecidoPrincipal[i]['price'];
  }
 
  /* Obtem preço do tecido da cortina blackout */
- private obterPrecoTecidoBlackout(i: number) {
+ private obterPrecoTecidoBlackout( i: number ) {
 
    return this.tecidoBlackout[i]['price'];
  }
@@ -181,7 +190,7 @@ export class OrderComponent implements OnInit {
  /* Calcula o valor do frete com base na UF */
  public getFrete(): number {
 
-   var i: number;
+   let i: number;
 
    if (this.orderForm.controls.sg_uf.value) {
      i = Number(this.orderForm.controls.qt_itens) * this.getTarifaFrete(this.orderForm.controls.sg_uf.value);
@@ -197,6 +206,7 @@ export class OrderComponent implements OnInit {
  /* Pega tarifa de frete aplicável à UF */
  private getTarifaFrete(uf: string): number {
 
+  // tslint:disable-next-line:prefer-const
   let i = this.tableShipping.filter(item => item.uf === uf);
    return i[0].price;
  }
@@ -208,6 +218,7 @@ export class OrderComponent implements OnInit {
         return prevVal + (elem.priceUnit * elem.qt);
       }, 0 );
 
+      // tslint:disable-next-line:prefer-const
       let total = Number(this.orderForm.controls.vr_total);
 
    return total;
@@ -216,6 +227,7 @@ export class OrderComponent implements OnInit {
  /* Inclui um item do pedido na tabela */
  public onAddItem () {
 
+  // tslint:disable-next-line:prefer-const
   let fg = this.formBuilder.group(new Item());
   this.itemFormArray.push(fg);
  }
@@ -228,7 +240,8 @@ export class OrderComponent implements OnInit {
  /* Exclui um item do pedido da tabela */
  public onRemoveItem (index) {
 
-  let it: any = this.orderForm.controls['items']
+  // tslint:disable-next-line:prefer-const
+  let it: any = this.orderForm.controls['items'];
   it.removeAt(index);
  }
 
@@ -254,6 +267,7 @@ export class OrderComponent implements OnInit {
  public onOrderFormSubmit() {
 
       /* Definir variáveis */
+      // tslint:disable-next-line:prefer-const
       let item: Item[] = this.orderForm.controls.items.value;
 
       /* Preencher objeto do pedido */
@@ -274,20 +288,25 @@ export class OrderComponent implements OnInit {
       );
 
       /* Criar JSON a partir do objeto  */
+      // tslint:disable-next-line:prefer-const
       let data = JSON.stringify(this.orderCheckout);
-  	  console.log('-----PEDIDO em formato JSON-----');
-  	  console.log(data);
+      console.log('-----PEDIDO em formato JSON-----');
+      console.log( data );
 
       /* Enviar para o backend (CHAMAR SERVICE) */
-      //TO DO
 
       /* Definir variáveis para onstruir XML de integração com o PagSeguro */
+      // tslint:disable-next-line:prefer-const
       let emp = '<<credentials to the webservice>>';
+      // tslint:disable-next-line:prefer-const
       let login = '<<credentials to the webservice>>';
+      // tslint:disable-next-line:prefer-const
       let pass = '<<credentials to the webservice>>';
+      // tslint:disable-next-line:prefer-const
       let id = '<<credentials to the webservice>>';
 
       /* Definir template e conteúdo do XML  */
+      // tslint:disable-next-line:prefer-const
       let body: string = '<?xml version=\"1.0\"?><checkout>\r\n' +
         '<sender>\r\n' +
           '<name>\"Jose Comprador\"</name>\r\n' +
@@ -340,31 +359,32 @@ export class OrderComponent implements OnInit {
         '</receiver>\r\n' +
       '</checkout>';
 
-      console.log(body);
+      console.log( body );
 
       const urltest = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
                       'email=suporte@lojamodelo.com.br&token=57BE455F4EC148E5A54D9BB91C5AC12C';
       const url = this.pagseguroURL;
 
       /* Enviar XML ao PagSeguro, retornando possíveis erros */
-      this.http.post(urltest, body, {
+      this.http.post( urltest, body, {
         headers: new HttpHeaders()
         .set('Content-Type', 'text/xml')
         .append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
         .append('Access-Control-Allow-Origin', '*')
         .append('Access-Control-Allow-Headers',
-                'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'), responseType:'text'})
-        .subscribe(data => {
-        console.log(data);
+                'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'), responseType: 'text'})
+        // tslint:disable-next-line:no-shadowed-variable
+        .subscribe( data => {
+        console.log( data );
       },
       (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
+        if ( err.error instanceof Error ) {
           // A client-side or network error occurred. Handle it accordingly.
           console.log('Ocorreu um erro na integração:', err.error.message);
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong,
-          console.log(`Retornado o código ${err.status}, cujo conteúdo relacionado é: ${err.error}`);
+          console.log(`Retornado o código ${ err.status }, cujo conteúdo relacionado é: ${ err.error }`);
         }
       }
     );

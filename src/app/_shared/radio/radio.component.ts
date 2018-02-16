@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms'
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
-import {RadioOption} from './radio-option.model'
+import {RadioOption} from './radio-option.model';
 
 @Component({
-  selector: 'mt-radio',
+  selector: 'app-radio',
   templateUrl: './radio.component.html',
   providers: [
     {
@@ -16,32 +16,28 @@ import {RadioOption} from './radio-option.model'
 })
 export class RadioComponent implements OnInit, ControlValueAccessor {
 
-  @Input() options: RadioOption[]
-
-  value: any
-
-  onChange: any
+  @Input() options: RadioOption[];
+  value: any;
+  onChange: any;
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  setValue( value: any ) {
+    this.value = value;
+    this.onChange( this.value );
   }
 
-  setValue(value: any) {
-    this.value = value
-    this.onChange(this.value)
-  }
-
-  writeValue(obj: any): void {
-    this.value = obj
+  writeValue( obj: any ): void {
+    this.value = obj;
   }
 
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn
+  registerOnChange( fn: any ): void {
+    this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched( fn: any ): void {}
 
-  setDisabledState(isDisabled: boolean): void {}
 }

@@ -1,22 +1,22 @@
 /* Recursos nativos e de terceiros */
-import { NgModule, ModuleWithProviders } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { HTTP_INTERCEPTORS } from '@angular/common/http'
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 /* Recursos de campos */
-import { InputComponent } from './input/input.component'
-import { RadioComponent } from './radio/radio.component'
-import { RatingComponent } from './rating/rating.component'
+import { InputComponent } from './input/input.component';
+import { RadioComponent } from './radio/radio.component';
+import { RatingComponent } from './rating/rating.component';
 
 /* Recursos de mensagem */
-import { SnackbarComponent } from './messages/snackbar/snackbar.component'
-import { NotificationService } from './messages/notification.service'
+import { SnackbarComponent } from './messages/snackbar/snackbar.component';
+import { NotificationService } from './messages/notification.service';
 
 /* Recursos de segurança */
-import { LoginService } from '../_security/login/login.service'
-import { LoggedInGuard } from '../_security/loggedin.guard'
-import { AuthInterceptor } from '../_security/auth.interceptor'
+import { LoginService } from '../_security/login/login.service';
+import { LoggedInGuard } from '../_security/loggedin.guard';
+import { AuthInterceptor } from '../_security/auth.interceptor';
 
 /* Serviços */
 import { OrdersService } from '../_services/orders/orders.service';
@@ -44,7 +44,7 @@ export class SharedModule {
                    ParametersService,
                    ProductsService,
                    UsersService,
-                   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}]
-    }
+                   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ]
+    };
   }
 }

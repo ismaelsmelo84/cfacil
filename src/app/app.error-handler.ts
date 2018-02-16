@@ -9,29 +9,29 @@ import {LoginService} from './_security/login/login.service';
 @Injectable()
 export class ApplicationErrorHandler extends ErrorHandler {
 
-  constructor(private ns: NotificationService,
-              private injector: Injector,
-              private zone: NgZone) {
+  constructor( private ns: NotificationService,
+               private injector: Injector,
+               private zone: NgZone ) {
     super();
   }
 
-  handleError(errorResponse: HttpErrorResponse | any) {
-    if (errorResponse instanceof HttpErrorResponse) {
+  handleError( errorResponse: HttpErrorResponse | any ) {
+    if ( errorResponse instanceof HttpErrorResponse ) {
       const message = errorResponse.error.message;
       this.zone.run(() => {
-        switch (errorResponse.status) {
+        switch ( errorResponse.status ) {
           case 401:
-            this.injector.get(LoginService).handleLogin();
+            this.injector.get( LoginService ).handleLogin();
           break;
           case 403:
-            this.ns.notify(message || 'Não autorizado.');
+            this.ns.notify( message || 'Não autorizado.' );
           break;
           case 404:
-            this.ns.notify(message || 'Recurso não encontrado. Verifique o console.');
+            this.ns.notify( message || 'Recurso não encontrado. Verifique o console.' );
           break;
         }
       });
     }
-    super.handleError(errorResponse);
+    super.handleError( errorResponse );
   }
 }

@@ -44,7 +44,7 @@ export class SearchOrderComponent implements OnInit {
 
        // tslint:disable-next-line:prefer-const
        let data = JSON.stringify( this.order );
-      console.log( '-----CONTATO em formato JSON-----' );
+      console.log( '-----FILTRO DA PESQUISA em formato JSON-----' );
       console.log( data );
      }
    }
