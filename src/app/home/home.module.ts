@@ -20,7 +20,7 @@ import { TermsComponent } from './terms/terms.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { SearchOrderComponent } from './search-order/search-order.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
-import { ControlMessagesComponent } from '../_components/validator/control-messages.component';
+import { AppControlMessagesComponent } from '../_components/validator/app-control-messages.component';
 import { ValidationService } from '../_components/validator/validation.service';
 
 /*Recursos de cabeçalho e rodapé */
@@ -61,7 +61,7 @@ const ROUTES: Routes = [ { path: '', component: HomeComponent } ];
              HighlightsComponent,
              SearchOrderComponent,
              SearchResultsComponent,
-             ControlMessagesComponent ],
+             AppControlMessagesComponent ],
   exports: [
              HomeComponent,
              TermsComponent,

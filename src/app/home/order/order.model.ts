@@ -1,8 +1,8 @@
 export class Item {
-
+  idCortina: number;
+  noCortina: string;
+  vrMetro: number;
   tpPrincipal: number;
-  tpBlackout: number;
-  tpSupport: number;
   height: number;
   width: number;
   qt: number;
@@ -10,10 +10,10 @@ export class Item {
   totalItem: number;
 
   constructor() {
-
+    this.idCortina = 0;
+    this.noCortina = '';
+    this.vrMetro = 0;
     this.tpPrincipal = 0;
-    this.tpBlackout = 0;
-    this.tpSupport = 0;
     this.height = 120;
     this.width = 200;
     this.qt = 1;

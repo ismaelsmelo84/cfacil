@@ -1,4 +1,4 @@
-<section id="contact" class="gray-bg padding-top-bottom">
+<section id="contato" class="gray-bg padding-top-bottom">
   <div class="container">
 
     <!--Cabeçalho do Form -->
@@ -34,7 +34,7 @@
                      class="form-control input-lg requiredField"
                      type="text">
             </div>
-            <control-messages [control]="contactForm.controls.no_contato"></control-messages>
+            <app-control-messages [control]="contactForm.controls.no_contato"></app-control-messages>
           </div>
 
 
@@ -49,7 +49,7 @@
                      class="form-control input-lg requiredField"
                      type="text">
             </div>
-            <control-messages [control]="contactForm.controls.no_contatoAssunto"></control-messages>
+            <app-control-messages [control]="contactForm.controls.no_contatoAssunto"></app-control-messages>
           </div>
 
           <!--Campo email -->
@@ -63,7 +63,7 @@
                      class="form-control input-lg requiredField"
                      type="email">
             </div>
-            <control-messages [control]="contactForm.controls.no_contatoEmail"></control-messages>
+            <app-control-messages [control]="contactForm.controls.no_contatoEmail"></app-control-messages>
           </div>
 
           <!--Campo mensagem -->
@@ -77,7 +77,7 @@
                         class="form-control input-lg requiredField"
                         rows="5"></textarea>
             </div>
-            <control-messages [control]="contactForm.controls.tx_contatoMsg"></control-messages>
+            <app-control-messages [control]="contactForm.controls.tx_contatoMsg"></app-control-messages>
           </div>
 
           <p>
@@ -124,7 +124,7 @@
           <div class="col-xs-12 col-sm-6 col-md-6">
             <div>
               <br>
-              <img src="assets/img/mail.gif" width="300" height="300" class="centro">
+              <img src="assets/img/icones/mail.gif" width="300" height="300" class="centro">
               <br><br><br>
             </div>
           </div>

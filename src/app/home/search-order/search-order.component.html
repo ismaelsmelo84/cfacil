@@ -13,18 +13,14 @@
 
         <!--Campo email -->
         <div class="input-group">
-
           <label for="no_emailBusca" class="control-label"></label>
           <input id="no_emailBusca" name="no_emailBusca" placeholder="Informe seu e-mail" class="form-control input-lg" type="email" formControlName="no_emailBusca">
-
           <span class="input-group-btn">
             <button name="submitSearch" type="submit" class="btn btn-store" data-toggle="modal" data-target="#modalSearch" [disabled]="!searchForm.valid">{{searchOrder.no_botao}}</button>
           </span>
-
         </div>
-        <control-messages [control]="searchForm.controls.no_emailBusca"></control-messages>
-
-        <!--Opção -->
+        
+        <app-control-messages [control]="searchForm.controls.no_emailBusca"></app-control-messages>
         <input type="hidden" name="submitted3" id="submitted3" value="true">
 
       </form>

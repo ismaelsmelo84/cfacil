@@ -1,7 +1,7 @@
-<section id="orderform" class="gray-bg padding-top-bottom"> <!--ng-controller="orderController"-->
+<section id="pedido" class="gray-bg padding-top-bottom">
   <div class="container">
 
-    <!--Header -->
+    <!--Header da sessão -->
     <header class="section-header text-center">
       <h2>FAÇA SEU PEDIDO</h2>
     </header>
@@ -19,67 +19,48 @@
 
               <!-- Cabeçalho da tabela -->
               <thead>
-
                 <tr>
-
                   <th>
                     <tr>
                       <td></td>
                     </tr>
                   </th>
-
                   <th>
                     <tr>
                       <td>CORTINA&nbsp;</td>
                       <td class="right-title-header">
-                        <a data-balloon="1. Escolha cortina principal e blackout, caso prefira o conjunto completo." data-balloon-pos="right">
-                          <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
+                        <a data-balloon="1. Escolha o modelo de cortina e a quantidade desejada." data-balloon-pos="right">
+                          <img src="assets/img/icones/info.png" width="20" height="28" alt="Dica" class="centro">
                         </a>
                       </td>
                     </tr>
                   </th>
-
                   <th>
                     <tr>
                       <td>DIMENSÕES&nbsp;</td>
                       <td class="right-title-header">
-                        <a data-balloon="2. Em seguida, informe as medidas da(s) cortina(s). Ex.: 2 metros = 200 cm." data-balloon-pos="right">
-                          <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
+                        <a data-balloon="2. Informe as medidas da área que deseja cobrir, em centímetros (1 metro = 100 cm)." data-balloon-pos="right">
+                          <img src="assets/img/icones/info.png" width="20" height="28" alt="Dica" class="centro">
                         </a>
                       </td>
                     </tr>
                   </th>
-
-                  <!--<th>
-                    <tr>
-                      <td>COMPLEMENTO&nbsp;</td>
-                      <td class="right-title-header">
-                        <a data-balloon="3. Depois selecione o tipo de suporte e a quant. de itens desejada." data-balloon-pos="up">
-                          <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
-                        </a>
-                      </td>
-                    </tr>
-                  </th>-->
-
                   <th>
                     <tr>
                       <td class="col-sm-3 col-md-3 col-lg-3">
-                        <a data-balloon="4. Confira os totais por item (abaixo). Se necessário, você pode ajustar." data-balloon-pos="left">
-                          <img src="assets/img/calculadora.png" width="20" height="28" alt="Dica" class="centro">
+                        <a data-balloon="3. Confira os totais por item (abaixo). Caso necessário, você pode ajustar." data-balloon-pos="left">
+                          <img src="assets/img/icones/calculadora.png" width="20" height="28" alt="Dica" class="centro">
                         </a>
                       </td>
                       <td class="col-sm-9 col-md-9 col-lg-9">TOTAL</td>
                     </tr>
                   </th>
-
                   <th>
                     <tr>
                       <td></td>
                     </tr>
                   </th>
-
                 </tr>
-
               </thead>
 
               <!-- Linhas da tabela -->
@@ -87,36 +68,28 @@
 
                 <!-- Linha 1 -->
                 <tr *ngFor="let ord of itemFormArray.controls; let i = index;" [formGroupName]="i">
-
-                  <!-- COLUNA 1 - ID: 1 -->
+                  
+                  <!-- Col 1: ID (0/12 até 1/12) -->
                   <td class="col-sm-1 col-md-1 col-lg-1 text-center fonte-verde">
-
                     <div class="row space">
                       <div class="col-sm-12 col-md-12">
                         <strong>{{i+1}}</strong>
                         <br><br>
                       </div>
                     </div>
-
                   </td>
-
-                  <!-- COLUNA 2 - Tecido: 3 -->
-                  <td  class="col-sm-6 col-md-6 col-lg-6 text-left">
-
+                  
+                  <!-- Col 2: Cortina (2/12 até 6/12) -->
+                  <td  class="col-sm-5 col-md-5 col-lg-5 text-left">
                     <div class="row space">
                       <div class="col-sm-6 col-md-3 space-label">Modelo:</div>
-                      <!--<div class="col-sm-6 col-md-9 text-left">
-                        <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
-                          <option *ngFor="let opt of tecidoPrincipal" [value]="opt.id">{{opt.name}}</option>
-                        </select>
-                      </div>-->
                       <div class="col-sm-6 col-md-9 text-left">
                         <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
+                          <option value="0" selected>Selecione aqui sua cortina</option>
                           <option *ngFor="let produto of produtos | async; let i = index" [value]="produto?.ordem">{{produto?.nome}}</option>
                         </select>
                       </div>
                     </div>
-
                     <div class="row space">
                       <div class="col-sm-6 col-md-3 space-label">Quantidade:</div>
                       <div class="col-sm-6 col-md-6 col-lg-8 text-left">
@@ -133,106 +106,61 @@
                           <option value="10">10</option>
                         </select>
                       </div>
-                      <!--<div class="col-sm-6 col-md-9 text-left">
-                        <select id="tpBlackout" formControlName="tpBlackout" class="form-control form-control-inline" name="{{'nu_tpBlackout' + i}}" data-balloon-length="15">
-                          <option *ngFor="let opt of tecidoBlackout" [value]="opt.id">{{opt.name}}</option>
-                        </select>
-                      </div>-->
                     </div>
-
                   </td>
-
-                  <!-- COLUNA 3 - Dimensões: 3 -->
+                  
+                  <!-- Col 3: Dimensões (7/12 até 9/12) -->
                   <td class="col-sm-3 col-md-3 col-lg-3 text-left">
-
                     <div class="row space">
                       <div class="col-sm-6 col-md-5 col-lg-5 space-label">Altura(cm):</div>
                       <div class="col-sm-6 col-md-7 col-lg-7 text-left">
                         <input id="height" formControlName="height" name="{{'nu_altura' + i}}" class="form-control form-control-inline" type="text" min="50" max="1000" size="5" pattern="([0-9]{5})">
                       </div>
                     </div>
-
                     <div class="row space">
                       <div class="col-sm-6 col-md-5 col-lg-5 space-label">Largura(cm):</div>
                       <div class="col-sm-6 col-md-7 col-lg-7 text-left">
                         <input id="width" formControlName="width" name="{{'nu_largura' + i}}" class="form-control form-control-inline" type="text" min="50" max="1000" size="5" pattern="([0-9]{5})">
                       </div>
                     </div>
-
                   </td>
-
-                  <!--<td class="col-sm-2 col-md-2 col-lg-2 text-left">
-                     COLUNA 4 - Suporte: 2 
-
-                    <div class="row space">
-                      <div class="col-sm-6 col-md-6 col-lg-4 space-label">Suporte:</div>
-                      <div class="col-sm-6 col-md-6 col-lg-8 text-left">
-                        <select id="tpSupport" formControlName="tpSupport" class="form-control form-control-inline" name="{{'nu_tpSupport' + i}}" >
-                          <option *ngFor="let opt of tipoSuporte" [value]="opt.id">{{opt.name}}</option>
-                        </select>
-                      </div>
-                    </div>-->
-
-                    <!--<div class="row space">
-                      <div class="col-sm-6 col-md-6 col-lg-4 space-label">Quant.:</div>
-                      <div class="col-sm-6 col-md-6 col-lg-8 text-left">
-                        <select id="qt" formControlName="qt" class="form-control form-control-inline" name="{{'qt' + i}}" >
-                          <option value="1" selected>1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                        </select>
-                      </div>
-                    </div>
-
-                  </td>-->
-
-                  <!-- COLUNA 5 - Preço: 2 -->
+                  
+                  <!-- Col 4: Preço (10/12 até 11/12) -->
                   <td class="col-sm-2 col-md-2 col-lg-2 text-left">
-
                     <div class="row space">
                       <div class="col-sm-0 col-md-3 col-lg-3"></div>
                       <div class="col-sm-12 col-md-9 col-lg-9 mini-texto text-center">
                         <div><br>
                           <span *ngIf="orderForm.controls.items.controls[i].controls.tpPrincipal.value!=='0' && orderForm.controls.items.controls[i].controls.tpPrincipal.value!==0">R$ 40.00/m²<br></span>
-                          <!--<span *ngIf="orderForm.controls.items.controls[i].controls.tpBlackout.value!=='0' && orderForm.controls.items.controls[i].controls.tpBlackout.value!==0">{{ getCalculoCortinaGenerico(i,'Blackout') | currency:"1 Blackout: R$ ":0  }}</span>-->
                         </div>
                       </div>
                     </div>
-
                     <div class="row space">
                       <div class="col-sm-0 col-md-3 col-lg-3"></div>
-                      <div class="col-sm-12 col-md-9 col-lg-9 total bottom text-center">{{ getCalculoCortina(i) | currency:"R$":0  }}</div>
+                      <div class="col-sm-12 col-md-9 col-lg-9 total bottom text-center">{{ getCalculoCortina(i) | currency:"R$&nbsp;":0 }}</div>
                     </div>
-
                   </td>
-
-                  <!-- COLUNA 6 - Ação: 1 -->
+                  
+                  <!-- Col 6: Ação (11/12 até 12/12) -->
                   <td class="col-sm-12 col-md-1 col-lg-1 text-right">
-
                     <div>
-                      <br><a href="#orderform" (click)="onRemoveItem(i)"><img src="assets/img/excluir2.png" width="15" height="15" alt="Excluir"></a>
+                      <br><a href="#pedido" (click)="onRemoveItem(i)"><img src="assets/img/icones/excluir.png" width="15" height="15" alt="Excluir"></a>
                     </div>
-
                   </td>
-
                 </tr>
 
                 <tr>
                   <td></td>
                   <td class="text-left">
-                    <img src="assets/img/exclamacao.png" width="18" height="18" alt="Dica" class="centro">&nbsp;Não acompanha varão ou trilho de fixação, nem inclui a montagem.</td>
-                  <td></td>
+                    <div>
+                      <div class="col-sm-1 col-md-1 col-lg-1"><img src="assets/img/icones/exclamacao.png" width="18" height="18" alt="Dica" class="centro">&nbsp;</div>
+                      <div class="col-sm-11 col-md-11 col-lg-11">- Não acompanha varão/trilho de fixação, nem mantagem. <br>* <a href="#" data-toggle="modal" data-target="#modalDicasMedidas">Clique aqui</a> e saiba mais sobre como inserir as medidas.</div>
+                    </div>
+                  </td>
                   <td></td>
                   <td></td>
                   <td class="col-sm-1 col-md-1 col-lg-1 text-right">
-                    <a href="#orderform" (click)="onAddItem()"><img src="assets/img/mais2.png" width="20" height="20" alt="Adicionar"></a>
+                    <a href="#pedido" (click)="onAddItem()"><img src="assets/img/icones/mais.png" width="20" height="20" alt="Adicionar"></a>
                   </td>
                 </tr>
 
@@ -241,7 +169,7 @@
 
           </div>
 
-          <!-- Dados pessoais -->
+          <!-- DADOS PESSOAIS -->
           <div class="col-sm-6 col-md-6 contact-info">
 
             <!-- Cabeçalho dos métodos de pagamento -->
@@ -251,21 +179,21 @@
             <div class="form-group">
               <label for="no_cliente" class="control-label"></label>
               <input formControlName="no_cliente" id="no_cliente" name="no_cliente" placeholder="Nome" class="form-control input-lg" type="text" required>
-              <control-messages [control]="orderForm.controls.no_cliente"></control-messages>
+              <app-control-messages [control]="orderForm.controls.no_cliente"></app-control-messages>
             </div>
             <div class="row">
               <div class="col-sm-4 col-md-4">
                 <div class="form-group">
                   <label for="nu_telefone" class="control-label"></label>
                   <input formControlName="nu_telefone" id="nu_telefone" name="nu_telefone" placeholder="DDD+Telefone" class="form-control input-lg" type="text" autocomplete="off">
-                  <control-messages [control]="orderForm.controls.nu_telefone"></control-messages>
+                  <app-control-messages [control]="orderForm.controls.nu_telefone"></app-control-messages>
                 </div>
               </div>
               <div class="col-sm-8 col-md-8">
                 <div class="form-group">
                   <label for="no_email" class="control-label"></label>
                   <input formControlName="no_email" id="no_email" name="no_email" placeholder="E-mail" class="form-control input-lg" type="email">
-                  <control-messages [control]="orderForm.controls.no_email"></control-messages>
+                  <app-control-messages [control]="orderForm.controls.no_email"></app-control-messages>
                 </div>
               </div>
             </div>
@@ -276,7 +204,7 @@
 
           </div>
 
-          <!-- Endereço de entregamento -->
+          <!-- ENDEREÇO DE ENTREGA -->
           <div class="col-sm-6 col-md-6">
 
             <!-- Cabeçalho do endereço -->
@@ -286,24 +214,24 @@
             <div class="form-group">
               <label for="no_logradouro" class="control-label"></label>
               <input formControlName="no_logradouro" id="no_logradouro" name="no_logradouro" placeholder="Logradouro" class="form-control" type="text">
-              <control-messages [control]="orderForm.controls.no_logradouro"></control-messages>
+              <app-control-messages [control]="orderForm.controls.no_logradouro"></app-control-messages>
             </div>
             <div class="row">
               <div class="col-sm-6 col-md-6 form-group">
                 <label for="nu_numero" class="control-label"></label>
                 <input formControlName="nu_numero" id="nu_numero" name="nu_numero" placeholder="Número" class="form-control" type="text">
-                <control-messages [control]="orderForm.controls.nu_numero"></control-messages>
+                <app-control-messages [control]="orderForm.controls.nu_numero"></app-control-messages>
               </div>
               <div class="col-sm-6 col-md-6 form-group">
                 <label for="no_bairro" class="control-label"></label>
                 <input formControlName="no_bairro" id="no_bairro" name="no_bairro" placeholder="Bairro" class="form-control" type="text">
-                <control-messages [control]="orderForm.controls.no_bairro"></control-messages>
+                <app-control-messages [control]="orderForm.controls.no_bairro"></app-control-messages>
               </div>
             </div>
             <div class="form-group">
               <label for="no_municipio" class="control-label"></label>
               <input formControlName="no_municipio" id="no_municipio" name="no_municipio" placeholder="Município" class="form-control" type="text">
-              <control-messages [control]="orderForm.controls.no_municipio"></control-messages>
+              <app-control-messages [control]="orderForm.controls.no_municipio"></app-control-messages>
             </div>
 
             <div class="row">
@@ -312,12 +240,12 @@
                   <select formControlName="sg_uf" id="sg_uf" name="sg_uf" class="form-control input-lg">
                     <option *ngFor="let uf of tableShipping | async; let i = index" [value]="uf?.sgUf">{{uf.sgUf}} - {{uf.nameUf}}</option>
                   </select>
-                  <control-messages [control]="orderForm.controls.sg_uf"></control-messages>
+                  <app-control-messages [control]="orderForm.controls.sg_uf"></app-control-messages>
               </div>
               <div class="col-sm-6 col-md-6 form-group">
                   <label for="nu_cep" class="control-label"></label>
                   <input formControlName="nu_cep" id="nu_cep" name="nu_cep" placeholder="CEP" class="form-control" type="text">
-                  <control-messages [control]="orderForm.controls.nu_cep"></control-messages>
+                  <app-control-messages [control]="orderForm.controls.nu_cep"></app-control-messages>
               </div>
             </div>
 
@@ -392,7 +320,7 @@
           <div class="col-xs-12 col-sm-6 col-md-6">
             <div>
               <br><br>
-              <img src="assets/img/email-sent.png" width="300" height="300" class="centro">
+              <img src="assets/img/icones/email-sent.png" width="300" height="300" class="centro">
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 text-center" >
@@ -403,3 +331,30 @@
     </div>
   </div>
 </div>
+
+
+<div id="modalDicasMedidas" class="modal fade text-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="color-bg">
+          <div class="container">
+            <div class="row ">
+              <div class="col-xs-12 col-sm-12 col-md-12 color-bg light-typo" id="9modal-bar">
+                <h2 class="pull-left">MEDINDO SUA CORTINA</h2>
+                <a class="close pull-right" href="#" data-dismiss="modal" ><i class="icon-close"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row text-center">
+            <img src="assets/img/instrucoes/instrucoes.png">
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center" >
+              <a class="btn btn-store" href="#" data-dismiss="modal">Voltar para o pedido</a><br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  

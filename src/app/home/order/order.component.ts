@@ -17,10 +17,7 @@ import { Item,
          Produto } from './order.model';
 
 /* Conjuntos de dados */
-import { tecidoPrincipal,
-         tecidoBlackout,
-         tipoSuporte,
-         parGerais } from '../data';
+import { parGerais } from '../data';
 
 @Component({
   selector: 'app-home-order',
@@ -30,20 +27,15 @@ import { tecidoPrincipal,
 
 export class OrderComponent implements OnInit {
 
+ parGerais: any;
+ tableShipping: Observable<TableShipping[]>;
+ orderForm: FormGroup;
+ orderCheckout: OrderCheckout;
+ produtos: Observable<Produto[]>;
+ items: Item[] = [];
  pagseguroURL = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
                 'email=cortinafacil2017@gmail.com&token=A28A32CA37EF45A68551827A7414085F';
  urlPagamento = 'https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=';
-
- tecidoPrincipal: any;
- tecidoBlackout: any;
- tipoSuporte: any;
- parGerais: any;
- produtos: Observable<Produto[]>;
- tableShipping: Observable<TableShipping[]>;
-
- orderForm: FormGroup;
- items: Item[] = [];
- orderCheckout: OrderCheckout;
 
  constructor( private formBuilder: FormBuilder,
               private http: HttpClient,
@@ -65,9 +57,6 @@ export class OrderComponent implements OnInit {
 
     /* Inicialização dos objetos externos */
     Object.assign(this, {
-      tecidoPrincipal,
-      tecidoBlackout,
-      tipoSuporte,
       parGerais
     });
 
@@ -95,8 +84,7 @@ export class OrderComponent implements OnInit {
   }
 
  /* Cálculo para averiguar o custo de 1 unidade de cortina, por tipo */
- public getCalculoCortinaGenerico( i: number,
-                                   tp: string ) {
+ public getCalculoCortinaGenerico( i: number, tp: string ) {
 
    /* Define variáveis */
    let prod = 0;                                                             // Numero ID do produto
@@ -173,13 +161,15 @@ export class OrderComponent implements OnInit {
  /* Obtem preço do tecido da cortina principal */
  private obterPrecoTecidoPrincipal( i: number ) {
 
-   return this.tecidoPrincipal[i]['price'];
+   /*return this.tecidoPrincipal[i]['price'];*/
+   return 40;
  }
 
  /* Obtem preço do tecido da cortina blackout */
  private obterPrecoTecidoBlackout( i: number ) {
 
-   return this.tecidoBlackout[i]['price'];
+   /*return this.tecidoBlackout[i]['price'];*/
+   return 40;
  }
 
  /* Obtem a quantidade de itens no pedido */
@@ -212,7 +202,7 @@ export class OrderComponent implements OnInit {
  private getTarifaFrete(uf: string): number {
 
   // tslint:disable-next-line:prefer-const
-  /*let i = this.tableShipping.filter(item => item.sgUf === uf);
+  /*let i = this.tableShipping.filter(item => item.sg_uf === uf);
    return i[0].price;*/
    return 20;
  }
