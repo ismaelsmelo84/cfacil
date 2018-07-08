@@ -22,6 +22,12 @@ import { RetornoModule } from './retorno-pagamento/retorno-pagamento.module';
 import { SharedModule } from './_shared/shared.module';
 import { LoginComponent } from './_security/login/login.component';
 
+/* Recursos do Firebase*/
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from '../environments/environment';
+
 /* Declarações do módulo */
 @NgModule({
   declarations: [
@@ -38,6 +44,9 @@ import { LoginComponent } from './_security/login/login.component';
     OrdersModule,
     ThanksModule,
     RetornoModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     RouterModule.forRoot( ROUTES, { preloadingStrategy: PreloadAllModules } )
   ],
   exports: [ RouterModule ],

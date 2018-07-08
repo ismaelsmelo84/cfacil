@@ -1,7 +1,8 @@
 /* Recursos nativos ou de terceiros */
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
@@ -11,13 +12,14 @@ import { ValidationService } from '../../_components/validator/validation.servic
 
 /* Tipos de dados */
 import { Item,
-         OrderCheckout } from './order.model';
+         OrderCheckout,
+         TableShipping,
+         Produto } from './order.model';
 
 /* Conjuntos de dados */
 import { tecidoPrincipal,
          tecidoBlackout,
          tipoSuporte,
-         tableShipping,
          parGerais } from '../data';
 
 @Component({
@@ -35,20 +37,24 @@ export class OrderComponent implements OnInit {
  tecidoPrincipal: any;
  tecidoBlackout: any;
  tipoSuporte: any;
- tableShipping: any;
  parGerais: any;
+ produtos: Observable<Produto[]>;
+ tableShipping: Observable<TableShipping[]>;
 
  orderForm: FormGroup;
  items: Item[] = [];
  orderCheckout: OrderCheckout;
 
  constructor( private formBuilder: FormBuilder,
-              private http: HttpClient ) {}
+              private http: HttpClient,
+              private db: AngularFireDatabase ) {}
 
  /* Inicializa os objetos da classe */
  ngOnInit() {
 
     this.createOrderForm();
+    this.produtos = this.getDBService('/produto');
+    this.tableShipping = this.getDBService('/tableShipping');
 
     // tslint:disable-next-line:prefer-const
     let orderFormGroups = this.items.map( item => this.formBuilder.group( item ) );
@@ -62,7 +68,6 @@ export class OrderComponent implements OnInit {
       tecidoPrincipal,
       tecidoBlackout,
       tipoSuporte,
-      tableShipping,
       parGerais
     });
 
@@ -207,8 +212,9 @@ export class OrderComponent implements OnInit {
  private getTarifaFrete(uf: string): number {
 
   // tslint:disable-next-line:prefer-const
-  let i = this.tableShipping.filter(item => item.uf === uf);
-   return i[0].price;
+  /*let i = this.tableShipping.filter(item => item.sgUf === uf);
+   return i[0].price;*/
+   return 20;
  }
 
  /* Calcula o total do pedido, já com frete */
@@ -389,4 +395,41 @@ export class OrderComponent implements OnInit {
       }
     );
   }
+
+ /*NOVA IMPLEMENTACAO */
+ public getQtTecidoF1(largura: number): number {
+  console.log('Usando fórmula: F1');
+  return largura * 2.5;
+ }
+
+ public getQtTecidoF2(altura: number, largura: number): number {
+  console.log('Usando fórmula: F2');
+  return (altura + 30) * (Math.round(largura / 120));
+ }
+
+ public getQtTecidoF3(largura: number): number {
+  console.log('Usando fórmula: F3');
+  return largura * 2.3;
+ }
+
+ public getQtTecidoF4(altura: number, largura: number): number {
+  console.log('Usando fórmula: F4');
+  return (altura + 30) * (Math.round(largura / 150));
+ }
+
+ public getPrecoItem(qtTecido: number, vrTecido: number): number {
+  console.log('Usando fórmula: Preço do Item');
+  if (qtTecido <= 100) {
+    qtTecido = 100;
+  }
+  return qtTecido * vrTecido;
+ }
+
+ public getProdutos() {
+   console.log('LOG');
+ }
+
+ getDBService(listPath): Observable<any[]> {
+   return this.db.list(listPath).valueChanges();
+ }
 }

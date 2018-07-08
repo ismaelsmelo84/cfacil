@@ -1,19 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 import { Frase } from './testimonial.model';
-import { frases } from '../data';
 
 @Component({
   selector: 'app-home-testimonial',
   templateUrl: 'testimonial.component.html'
 })
 
-export class TestimonialComponent {
+export class TestimonialComponent implements OnInit {
+  frases: Observable<any[]>;
 
- frases: Frase[];
+  constructor(private db: AngularFireDatabase) { }
 
- constructor() {
-   Object.assign(this, {
-     frases
-   });
- }
+  ngOnInit() {
+
+    this.frases = this.getFrases('/frases');
+  }
+
+  getFrases(listPath): Observable<any[]> {
+    return this.db.list(listPath).valueChanges();
+  }
 }
+
+

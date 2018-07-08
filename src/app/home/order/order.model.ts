@@ -22,6 +22,18 @@ export class Item {
   }
 }
 
+export class TableShipping {
+  nameUf: string;
+  price: number;
+  sgUf: string;
+}
+
+export class Produto {
+  ordem: number;
+  nome: string;
+  preco: number;
+}
+
 export class OrderCheckout {
 
   items: Item[];

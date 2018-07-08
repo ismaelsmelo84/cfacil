@@ -1,3 +1,3 @@
 export interface Email {
-  no_email: string
+  no_email: string;
 }

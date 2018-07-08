@@ -1,27 +1,27 @@
 # CortinaFacil
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
+Este projeto foi construído utilizando o[Angular CLI](https://github.com/angular/angular-cli), versão 1.6.3.
 
-## Development server
+## Servidor de desenvolvimento
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Use `ng serve` para rodar o servidor de desenvolvimento. Acesse `http://localhost:4200/`. A aplicação irá automaticamente carregar se você mudar qualquer arquivo do código fonte.
 
-## Code scaffolding
+## Estrutura de código
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Rode `ng generate component component-name` para gerar um novo componentes. Você também poderá usar o comando `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Geração de build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Rode `ng build` para gerar o build do projeto. Os artefatos de build serão gerados no diretório `dist/`. Use a flag `-prod` para gerar o build de produção.
 
-## Running unit tests
+## Rodando testes unitários
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Execute `ng test` para rodar testes unitários via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Rodando testes end-to-end
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Execute `ng e2e` para executar testes end-to-end via [Protractor](http://www.protractortest.org/).
 
-## Further help
+## Ajuda adicional
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Para mais informações sobre o Angular CLI use `ng help` ou acesse [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

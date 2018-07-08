@@ -30,7 +30,7 @@
 
                   <th>
                     <tr>
-                      <td>TECIDO&nbsp;</td>
+                      <td>CORTINA&nbsp;</td>
                       <td class="right-title-header">
                         <a data-balloon="1. Escolha cortina principal e blackout, caso prefira o conjunto completo." data-balloon-pos="right">
                           <img src="assets/img/info.png" width="20" height="28" alt="Dica" class="centro">
@@ -50,7 +50,7 @@
                     </tr>
                   </th>
 
-                  <th>
+                  <!--<th>
                     <tr>
                       <td>COMPLEMENTO&nbsp;</td>
                       <td class="right-title-header">
@@ -59,7 +59,7 @@
                         </a>
                       </td>
                     </tr>
-                  </th>
+                  </th>-->
 
                   <th>
                     <tr>
@@ -68,7 +68,7 @@
                           <img src="assets/img/calculadora.png" width="20" height="28" alt="Dica" class="centro">
                         </a>
                       </td>
-                      <td class="col-sm-9 col-md-9 col-lg-9">TOTAL POR ITEM</td>
+                      <td class="col-sm-9 col-md-9 col-lg-9">TOTAL</td>
                     </tr>
                   </th>
 
@@ -101,24 +101,43 @@
                   </td>
 
                   <!-- COLUNA 2 - Tecido: 3 -->
-                  <td  class="col-sm-3 col-md-3 col-lg-3 text-left">
+                  <td  class="col-sm-6 col-md-6 col-lg-6 text-left">
 
                     <div class="row space">
-                      <div class="col-sm-6 col-md-3 space-label">Principal:</div>
-                      <div class="col-sm-6 col-md-9 text-left">
+                      <div class="col-sm-6 col-md-3 space-label">Modelo:</div>
+                      <!--<div class="col-sm-6 col-md-9 text-left">
                         <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
                           <option *ngFor="let opt of tecidoPrincipal" [value]="opt.id">{{opt.name}}</option>
+                        </select>
+                      </div>-->
+                      <div class="col-sm-6 col-md-9 text-left">
+                        <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
+                          <option *ngFor="let produto of produtos | async; let i = index" [value]="produto?.ordem">{{produto?.nome}}</option>
                         </select>
                       </div>
                     </div>
 
                     <div class="row space">
-                      <div class="col-sm-6 col-md-3 space-label">Blackout:</div>
-                      <div class="col-sm-6 col-md-9 text-left">
+                      <div class="col-sm-6 col-md-3 space-label">Quantidade:</div>
+                      <div class="col-sm-6 col-md-6 col-lg-8 text-left">
+                        <select id="qt" formControlName="qt" class="form-control form-control-inline" name="{{'qt' + i}}" >
+                          <option value="1" selected>1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
+                      </div>
+                      <!--<div class="col-sm-6 col-md-9 text-left">
                         <select id="tpBlackout" formControlName="tpBlackout" class="form-control form-control-inline" name="{{'nu_tpBlackout' + i}}" data-balloon-length="15">
                           <option *ngFor="let opt of tecidoBlackout" [value]="opt.id">{{opt.name}}</option>
                         </select>
-                      </div>
+                      </div>-->
                     </div>
 
                   </td>
@@ -127,14 +146,14 @@
                   <td class="col-sm-3 col-md-3 col-lg-3 text-left">
 
                     <div class="row space">
-                      <div class="col-sm-6 col-md-5 col-lg-5 space-label">Altura (cm):</div>
+                      <div class="col-sm-6 col-md-5 col-lg-5 space-label">Altura(cm):</div>
                       <div class="col-sm-6 col-md-7 col-lg-7 text-left">
                         <input id="height" formControlName="height" name="{{'nu_altura' + i}}" class="form-control form-control-inline" type="text" min="50" max="1000" size="5" pattern="([0-9]{5})">
                       </div>
                     </div>
 
                     <div class="row space">
-                      <div class="col-sm-6 col-md-5 col-lg-5 space-label">Largura (cm):</div>
+                      <div class="col-sm-6 col-md-5 col-lg-5 space-label">Largura(cm):</div>
                       <div class="col-sm-6 col-md-7 col-lg-7 text-left">
                         <input id="width" formControlName="width" name="{{'nu_largura' + i}}" class="form-control form-control-inline" type="text" min="50" max="1000" size="5" pattern="([0-9]{5})">
                       </div>
@@ -142,8 +161,8 @@
 
                   </td>
 
-                  <td class="col-sm-2 col-md-2 col-lg-2 text-left">
-                    <!-- COLUNA 4 - Suporte: 2 -->
+                  <!--<td class="col-sm-2 col-md-2 col-lg-2 text-left">
+                     COLUNA 4 - Suporte: 2 
 
                     <div class="row space">
                       <div class="col-sm-6 col-md-6 col-lg-4 space-label">Suporte:</div>
@@ -152,9 +171,9 @@
                           <option *ngFor="let opt of tipoSuporte" [value]="opt.id">{{opt.name}}</option>
                         </select>
                       </div>
-                    </div>
+                    </div>-->
 
-                    <div class="row space">
+                    <!--<div class="row space">
                       <div class="col-sm-6 col-md-6 col-lg-4 space-label">Quant.:</div>
                       <div class="col-sm-6 col-md-6 col-lg-8 text-left">
                         <select id="qt" formControlName="qt" class="form-control form-control-inline" name="{{'qt' + i}}" >
@@ -172,7 +191,7 @@
                       </div>
                     </div>
 
-                  </td>
+                  </td>-->
 
                   <!-- COLUNA 5 - Preço: 2 -->
                   <td class="col-sm-2 col-md-2 col-lg-2 text-left">
@@ -181,8 +200,8 @@
                       <div class="col-sm-0 col-md-3 col-lg-3"></div>
                       <div class="col-sm-12 col-md-9 col-lg-9 mini-texto text-center">
                         <div><br>
-                          <span *ngIf="orderForm.controls.items.controls[i].controls.tpPrincipal.value!=='0' && orderForm.controls.items.controls[i].controls.tpPrincipal.value!==0">{{ getCalculoCortinaGenerico(i,'Principal') | currency:"1 Principal: R$ ":0 }}<br></span>
-                          <span *ngIf="orderForm.controls.items.controls[i].controls.tpBlackout.value!=='0' && orderForm.controls.items.controls[i].controls.tpBlackout.value!==0">{{ getCalculoCortinaGenerico(i,'Blackout') | currency:"1 Blackout: R$ ":0  }}</span>
+                          <span *ngIf="orderForm.controls.items.controls[i].controls.tpPrincipal.value!=='0' && orderForm.controls.items.controls[i].controls.tpPrincipal.value!==0">R$ 40.00/m²<br></span>
+                          <!--<span *ngIf="orderForm.controls.items.controls[i].controls.tpBlackout.value!=='0' && orderForm.controls.items.controls[i].controls.tpBlackout.value!==0">{{ getCalculoCortinaGenerico(i,'Blackout') | currency:"1 Blackout: R$ ":0  }}</span>-->
                         </div>
                       </div>
                     </div>
@@ -291,7 +310,7 @@
               <div class="col-sm-6 col-md-6 form-group">
                   <label for="sg_uf" class="control-label"></label>
                   <select formControlName="sg_uf" id="sg_uf" name="sg_uf" class="form-control input-lg">
-                    <option *ngFor="let opt of tableShipping" [value]="opt.uf">{{opt.uf}} - {{opt.nameUf}}</option>
+                    <option *ngFor="let uf of tableShipping | async; let i = index" [value]="uf?.sgUf">{{uf.sgUf}} - {{uf.nameUf}}</option>
                   </select>
                   <control-messages [control]="orderForm.controls.sg_uf"></control-messages>
               </div>

@@ -14,15 +14,15 @@
       <div class="container">
         <div class="row ">
           <div class="col-xs-12 col-sm-6 col-md-6">
-            <div *ngFor="let esquerda of termosEsq">
-              <h3>{{esquerda.no_cabecalho}}</h3>
-              <p>{{esquerda.ds_texto}}</p>
+            <div *ngFor="let esquerda of termosEsq | async">
+              <h3>{{esquerda?.no_cabecalho}}</h3>
+              <p>{{esquerda?.ds_texto}}</p>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6">
-            <div *ngFor="let direita of termosDir">
-              <h3>{{direita.no_cabecalho}}</h3>
-              <p>{{direita.ds_texto}}</p>
+            <div *ngFor="let direita of termosDir | async">
+              <h3>{{direita?.no_cabecalho}}</h3>
+              <p>{{direita?.ds_texto}}</p>
             </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 text-center" >
