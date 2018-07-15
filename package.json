@@ -23,9 +23,10 @@
     "@angular/router": "^5.0.0",
     "angularfire2": "^5.0.0-rc.2",
     "core-js": "^2.4.1",
-    "firebase": "^4.4.0",
+    "firebase": "^4.5.0",
     "ng2-input-mask": "0.0.7",
     "ngx-mask": "^2.2.2",
+    "promise-polyfill": "8.0.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

@@ -37,21 +37,6 @@
             <app-control-messages [control]="contactForm.controls.no_contato"></app-control-messages>
           </div>
 
-
-          <!--Campo assunto -->
-          <div class="form-group">
-            <label class="control-label" for="no_contatoAssunto"></label>
-            <div class="controls">
-              <input id="no_contatoAssunto"
-                     formControlName="no_contatoAssunto"
-                     name="no_contatoAssunto"
-                     placeholder="Assunto"
-                     class="form-control input-lg requiredField"
-                     type="text">
-            </div>
-            <app-control-messages [control]="contactForm.controls.no_contatoAssunto"></app-control-messages>
-          </div>
-
           <!--Campo email -->
           <div class="form-group">
             <label class="control-label" for="no_contatoEmail"></label>
@@ -64,6 +49,20 @@
                      type="email">
             </div>
             <app-control-messages [control]="contactForm.controls.no_contatoEmail"></app-control-messages>
+          </div>
+
+          <!--Campo assunto -->
+          <div class="form-group">
+            <label class="control-label" for="no_contatoAssunto"></label>
+            <div class="controls">
+              <input id="no_contatoAssunto"
+                      formControlName="no_contatoAssunto"
+                      name="no_contatoAssunto"
+                      placeholder="Assunto"
+                      class="form-control input-lg requiredField"
+                      type="text">
+            </div>
+            <app-control-messages [control]="contactForm.controls.no_contatoAssunto"></app-control-messages>
           </div>
 
           <!--Campo mensagem -->

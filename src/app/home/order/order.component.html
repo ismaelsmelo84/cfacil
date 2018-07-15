@@ -80,11 +80,11 @@
                   </td>
                   
                   <!-- Col 2: Cortina (2/12 até 6/12) -->
-                  <td  class="col-sm-5 col-md-5 col-lg-5 text-left">
+                  <td  class="col-sm-6 col-md-6 col-lg-6 text-left">
                     <div class="row space">
                       <div class="col-sm-6 col-md-3 space-label">Modelo:</div>
                       <div class="col-sm-6 col-md-9 text-left">
-                        <select id="tpPrincipal" formControlName="tpPrincipal" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
+                        <select id="idProduto" formControlName="idProduto" class="form-control form-control-inline" name="{{'nu_tpPrincipal' + i}}" data-balloon-length="15">
                           <option value="0" selected>Selecione aqui sua cortina</option>
                           <option *ngFor="let produto of produtos | async; let i = index" [value]="produto?.ordem">{{produto?.nome}}</option>
                         </select>
@@ -94,7 +94,8 @@
                       <div class="col-sm-6 col-md-3 space-label">Quantidade:</div>
                       <div class="col-sm-6 col-md-6 col-lg-8 text-left">
                         <select id="qt" formControlName="qt" class="form-control form-control-inline" name="{{'qt' + i}}" >
-                          <option value="1" selected>1</option>
+                          <option value="0" selected>Selecione</option>
+                          <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                           <option value="4">4</option>
@@ -126,18 +127,19 @@
                   </td>
                   
                   <!-- Col 4: Preço (10/12 até 11/12) -->
-                  <td class="col-sm-2 col-md-2 col-lg-2 text-left">
+                  <td class="col-sm-2 col-md-1 col-lg-1 text-left">
                     <div class="row space">
                       <div class="col-sm-0 col-md-3 col-lg-3"></div>
                       <div class="col-sm-12 col-md-9 col-lg-9 mini-texto text-center">
-                        <div><br>
+                        <!--<div><br>
                           <span *ngIf="orderForm.controls.items.controls[i].controls.tpPrincipal.value!=='0' && orderForm.controls.items.controls[i].controls.tpPrincipal.value!==0">R$ 40.00/m²<br></span>
-                        </div>
+                        </div>-->
+                        <br>
                       </div>
                     </div>
                     <div class="row space">
                       <div class="col-sm-0 col-md-3 col-lg-3"></div>
-                      <div class="col-sm-12 col-md-9 col-lg-9 total bottom text-center">{{ getCalculoCortina(i) | currency:"R$&nbsp;":0 }}</div>
+                      <div class="col-sm-12 col-md-9 col-lg-9 total bottom text-center">{{ getTotalItem(i) | currency:"R$&nbsp;":0 }}</div>
                     </div>
                   </td>
                   
@@ -154,7 +156,7 @@
                   <td class="text-left">
                     <div>
                       <div class="col-sm-1 col-md-1 col-lg-1"><img src="assets/img/icones/exclamacao.png" width="18" height="18" alt="Dica" class="centro">&nbsp;</div>
-                      <div class="col-sm-11 col-md-11 col-lg-11">- Não acompanha varão/trilho de fixação, nem mantagem. <br>* <a href="#" data-toggle="modal" data-target="#modalDicasMedidas">Clique aqui</a> e saiba mais sobre como inserir as medidas.</div>
+                      <div class="col-sm-11 col-md-11 col-lg-11">- Não acompanha varão/trilho de fixação, nem montagem. <br>* <a href="#" data-toggle="modal" data-target="#modalDicasMedidas">Clique aqui</a> e saiba mais sobre como inserir as medidas.</div>
                     </div>
                   </td>
                   <td></td>
@@ -200,7 +202,7 @@
 
             <p><img src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/todos_estatico_550_100.gif" width="100%" alt="Logotipos de meios de pagamento do PagSeguro" title="Este site aceita pagamentos com as principais bandeiras e bancos, saldo em conta PagSeguro e boleto."></p><br>
 
-            <p class="caixa"><strong>ATENÇÃO</strong><br>Você está comprando a cortina confeccionada com seus fixadores (argolas, deslizantes ou ilhoses). O produto não acompanha o varão ou trilho de sustentação, nem inclui a mão de obra para instalação.</p>
+            <p class="caixa"><strong>ATENÇÃO:</strong><br><br>1. Você está comprando a cortina confeccionada com seus fixadores (argolas, deslizantes ou ilhoses); <br>2. O produto não acompanha o varão ou trilho de sustentação, nem inclui a mão de obra para instalação.</p>
 
           </div>
 
@@ -213,7 +215,7 @@
             <!-- Formulário de endereço -->
             <div class="form-group">
               <label for="no_logradouro" class="control-label"></label>
-              <input formControlName="no_logradouro" id="no_logradouro" name="no_logradouro" placeholder="Logradouro" class="form-control" type="text">
+              <input formControlName="no_logradouro" id="no_logradouro" name="no_logradouro" placeholder="Rua, avenida, estrada..." class="form-control" type="text">
               <app-control-messages [control]="orderForm.controls.no_logradouro"></app-control-messages>
             </div>
             <div class="row">
@@ -258,9 +260,14 @@
               <!-- Cabeçalho do resumo -->
               <tbody>
                 <tr>
-                  <td>Cortinas (quantidade)</td>
+                  <td>Quantidade</td>
                   <td></td>
                   <td class="text-right">{{ getQtItens() }}</td>
+                </tr>
+                <tr>
+                  <td>Valor das cortinas</td>
+                  <td></td>
+                  <td class="text-right">{{ getSomaTotal() | currency:"R$ ":0 }}</td>
                 </tr>
                 <tr>
                   <td>Valor do frete:</td>
@@ -268,9 +275,9 @@
                   <td class="text-right">{{getFrete() | currency:"R$ ":0 }}</td>
                 </tr>
                 <tr>
-                  <td>Total (com frete):</td>
+                  <td><strong>Valor total (com frete):</strong></td>
                   <td></td>
-                  <td id="total" class="text-right">{{ getSomaTotal() + getFrete() | currency:"R$ ":0 }}</td>
+                  <td id="total" class="text-right"><strong>{{ getSomaTotal() + getVrFrete() | currency:"R$ ":0 }}</strong></td>
                 </tr>
               </tbody>
 

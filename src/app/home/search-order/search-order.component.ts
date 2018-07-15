@@ -50,9 +50,7 @@ export class SearchOrderComponent implements OnInit {
    }
 
    public getFilter(): string {
-     // tslint:disable-next-line:prefer-const
-     let ret = this.searchForm.controls.no_emailBusca.value;
-     console.log( ret );
+     const ret = this.searchForm.controls.no_emailBusca.value;
      return ret;
    }
 }
