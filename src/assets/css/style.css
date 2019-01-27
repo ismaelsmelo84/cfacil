@@ -115,7 +115,7 @@ h3.center {
 .image-bg {
 	overflow: hidden;
 	background-size: cover;
-	background-image: url('../img/mainpage/testemunho.jpg');
+	background-image: url('https://firebasestorage.googleapis.com/v0/b/cortinafacil-ba0d7.appspot.com/o/mainpage%2Ftestemunho.jpg?alt=media&token=abbf2c40-f5bf-430d-a989-0358607a6e2b');
 	background-position: center 16%;
 	position: relative;
 }

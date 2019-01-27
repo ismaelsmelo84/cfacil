@@ -6,6 +6,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt, 'pt-BR');
 
 /* Recursos da raíz do APP */
 import { AppComponent } from './app.component';
@@ -50,7 +55,7 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot( ROUTES, { preloadingStrategy: PreloadAllModules } )
   ],
   exports: [ RouterModule ],
-  providers: [ { provide: ErrorHandler, useClass: ApplicationErrorHandler } ],
+  providers: [ { provide: ErrorHandler, useClass: ApplicationErrorHandler }, { provide: LOCALE_ID, useValue: 'pt-BR' } ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

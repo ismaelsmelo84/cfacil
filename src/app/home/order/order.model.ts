@@ -3,6 +3,7 @@ export class Item {
   noCortina: string;
   vrMetro: number;
   idProduto: number;
+  tpProduto: string;
   height: number;
   width: number;
   qt: number;
@@ -14,8 +15,9 @@ export class Item {
     this.noCortina = '';
     this.vrMetro = 0;
     this.idProduto = 0;
-    this.height = 120;
-    this.width = 200;
+    this.tpProduto = '';
+    this.height = 0;
+    this.width = 0;
     this.qt = 0;
     this.priceUnit = 0;
     this.totalItem = 0;
@@ -31,6 +33,7 @@ export class TableShipping {
 export class Produto {
   ordem: number;
   nome: string;
+  tipo: string;
   preco: number;
 }
 

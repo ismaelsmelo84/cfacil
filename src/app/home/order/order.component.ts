@@ -45,7 +45,6 @@ export class OrderComponent implements OnInit {
     this.onAddItem();
   }
 
-  /*INICIALIZA FORMULÁRIO DE PEDIDO */
   private createOrderForm() {
     this.orderForm = this.formBuilder.group({
       items: this.formBuilder.array([]),
@@ -64,30 +63,70 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  /* Cálculo para averiguar o custo de 1 unidade de cortina, por tipo */
-  public getCalculoCortinaGenerico( i: number ) {
-    let prod = 0;                                                             // Numero ID do produto
-    let pmt = 0;                                                              // Preço do metro
-    let price = 0;
+  private getCalculoCortinaGenerico( i: number ) {
+    let price: number;
     const l: number = this.orderForm.controls.items.value[i].width;
-    const a: number = this.orderForm.controls.items.value[i].height;                                                            // Preço
+    const a: number = this.orderForm.controls.items.value[i].height;
+    const prod: number = this.orderForm.controls.items.value[i].idProduto;
+    this.orderForm.controls.items.value[i].tpProduto = this.getTpTecido(prod);
+    const tpProduto: string = this.orderForm.controls.items.value[i].tpProduto;
+    const pmt: number = this.getPrecoTecido( prod );
 
-    /* Identifica o tipo de cortina */
-    prod = this.orderForm.controls.items.value[i].idProduto;
-    pmt = this.getPrecoTecido( prod );
-    if ( prod > 0 ) {
+    price = 0;
+
+    if (( prod > 0 ) && ( tpProduto === 'Voal')) {
       if ( a <= 280 ) {
-        price = l * 2.5 * ( pmt / 100 );
-      } else if ( a > 280 ) {
-        price = a * ( l / 120 ) * ( pmt / 100 );
+        price = this.getQtTecidoF1(l) * pmt;
+      } else if (( a > 280 ) && ( a <= 300 ) ) {
+        price = this.getQtTecidoF2(a, l) * pmt;
+      }
+    } else if (( prod > 0 ) && ( tpProduto === 'Blackout')) {
+      if ( a <= 280 ) {
+        price = this.getQtTecidoF3(l) * pmt;
+      } else if (( a > 280 ) && ( a <= 300 ) ) {
+        price = this.getQtTecidoF4(a, l) * pmt;
       }
     }
 
-    /* Retorna o preço correspondente */
     return price;
   }
 
-  /*CALCULAR TOTAL DO PEDIDO */
+  private getTpTecido(idProduto: number): string {
+    let prod: string;
+    prod = String(this.produtos
+      .map(produtos => {
+        const fl = produtos.filter(product => product.ordem === 1);
+        return (fl.length > 0) ? fl[0]['tipo'] : '';
+      }));
+
+    /* arrumar código acima
+    console.log(prod);*/
+
+    return 'Voal';
+  }
+
+
+  private getPrecoTecido( i: number ): number {
+    /*return this.tecidoPrincipal[i]['price'];*/
+    return 40;
+  }
+
+  private getQtTecidoF1(vr_largura: number): number {
+    return vr_largura / 100 * 2.5;
+  }
+
+  private getQtTecidoF2(vr_altura: number, vr_largura: number): number {
+    return (vr_altura / 100 + 0.30) * (Math.round(vr_largura / 120));
+  }
+
+  private getQtTecidoF3(vr_largura: number): number {
+    return vr_largura / 100 * 2.3;
+  }
+
+  private getQtTecidoF4(vr_altura: number, vr_largura: number): number {
+    return (vr_altura / 100 + 0.30) * (Math.round(vr_largura / 150));
+  }
+
   public getTotalItem( i: number ) {
     const idProduto: number = this.orderForm.controls.items.value[i].idProduto;
     const qt: number = this.orderForm.controls.items.value[i].qt;
@@ -106,12 +145,6 @@ export class OrderComponent implements OnInit {
     }, 0 );
 
     return vr_totalItem;
-  }
-
-  /* Obtem preço do tecido da cortina principal */
-  private getPrecoTecido( i: number ) {
-    /*return this.tecidoPrincipal[i]['price'];*/
-    return 40;
   }
 
   public getQtItens() {
@@ -156,141 +189,8 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  /* Submete pedido e realiza integração com o PagSeguro  */
-  public onOrderFormSubmit() {
-      const item: Item[] = this.orderForm.controls.items.value;
-      /* Preencher objeto do pedido */
-      this.orderCheckout = new OrderCheckout(
-        item,
-        this.orderForm.controls.no_cliente.value,
-        this.orderForm.controls.nu_telefone.value,
-        this.orderForm.controls.no_email.value,
-        this.orderForm.controls.no_logradouro.value,
-        this.orderForm.controls.nu_numero.value,
-        this.orderForm.controls.no_bairro.value,
-        this.orderForm.controls.no_municipio.value,
-        this.orderForm.controls.sg_uf.value,
-        this.orderForm.controls.nu_cep.value,
-        this.orderForm.controls.qt_itens.value,
-        this.orderForm.controls.vr_frete.value,
-        this.orderForm.controls.vr_total.value
-      );
-
-      /* Criar JSON a partir do objeto  */
-      const data = JSON.stringify(this.orderCheckout);
-      console.log('-----PEDIDO em formato JSON-----');
-      console.log( data );
-
-      /* Enviar para o backend (CHAMAR SERVICE) */
-
-      /* Definir variáveis para onstruir XML de integração com o PagSeguro */
-      const emp = '<<credentials to the webservice>>';
-      const login = '<<credentials to the webservice>>';
-      const pass = '<<credentials to the webservice>>';
-      const id = '<<credentials to the webservice>>';
-
-      /* Definir template e conteúdo do XML  */
-      const body: string = '<?xml version=\"1.0\"?><checkout>\r\n' +
-        '<sender>\r\n' +
-          '<name>\"Jose Comprador\"</name>\r\n' +
-          '<email>\"comprador@uol.com.br\"</email>\r\n' +
-          '<phone>\r\n' +
-            '<areaCode>\"99\"</areaCode>\r\n' +
-            '<number>\"99999999\"</number>\r\n' +
-          '</phone>\r\n' +
-          '<ip>\"1.1.1.1\"</ip>\r\n' +
-          '<documents>\r\n' +
-            '<document>\r\n' +
-              '<type>\"CPF\"</type>\r\n' +
-              '<value>\"11475714734\"</value>\r\n' +
-            '</document>\r\n' +
-          '</documents>\r\n' +
-        '</sender>\r\n' +
-        '<currency>\"BRL\"</currency>\r\n' +
-        '<items>\r\n' +
-          '<item>\r\n' +
-            '<id>\"0001\"</id>\r\n' +
-            '<description>\"Produto PagSeguroI\"</description>\r\n' +
-            '<amount>\"99999.99\"</amount>\r\n' +
-            '<quantity>\"1\"</quantity>\r\n' +
-            '<weight>\"10\"</weight>\r\n' +
-            '<shippingCost>\"1.00\"</shippingCost>\r\n' +
-          '</item>\r\n' +
-        '</items>\r\n' +
-        '<redirectURL>\"http://lojamodelo.com.br/return.html\"</redirectURL>\r\n' +
-        '<extraAmount>\"10.00\"</extraAmount>\r\n' +
-        '<reference>\"REF1234\"</reference>\r\n' +
-        '<shipping>\r\n' +
-          '<address>\r\n' +
-            '<street>\"Av. PagSeguro\"</street>\r\n' +
-            '<number>\"9999\"</number>\r\n' +
-            '<complement>\"99o andar\"</complement>\r\n' +
-            '<district>\"Jardim Internet\"</district>\r\n' +
-            '<city>\"Cidade Exemplo\"</city>\r\n' +
-            '<state>\"SP\"</state>\r\n' +
-            '<country>\"BRA\"</country>\r\n' +
-            '<postalCode>\"99999999\"</postalCode>\r\n' +
-          '</address>\r\n' +
-          '<type>\"1\"</type>\r\n' +
-          '<cost>\"1.00\"</cost>\r\n' +
-          '<addressRequired>\"true\"</addressRequired>\r\n' +
-        '</shipping>\r\n' +
-        '<maxAge>\"999999999\"</maxAge>\r\n' +
-        '<maxUses>\"999</maxUses>\r\n' +
-        '<receiver>\r\n' +
-          '<email>\"suporte@lojamodelo.com.br\"</email>\r\n' +
-        '</receiver>\r\n' +
-      '</checkout>';
-
-      console.log( body );
-
-      const urltest = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
-                      'email=suporte@lojamodelo.com.br&token=57BE455F4EC148E5A54D9BB91C5AC12C';
-      const url = this.pagseguroURL;
-
-      /* Enviar XML ao PagSeguro, retornando possíveis erros */
-      this.http.post( urltest, body, {
-        headers: new HttpHeaders()
-        .set('Content-Type', 'text/xml')
-        .append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
-        .append('Access-Control-Allow-Origin', '*')
-        .append('Access-Control-Allow-Headers',
-                'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'), responseType: 'text'})
-        // tslint:disable-next-line:no-shadowed-variable
-        .subscribe( data => {
-        console.log( data );
-      },
-      (err: HttpErrorResponse) => {
-        if ( err.error instanceof Error ) {
-          // A client-side or network error occurred. Handle it accordingly.
-          console.log('Ocorreu um erro na integração:', err.error.message);
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong,
-          console.log(`Retornado o código ${ err.status }, cujo conteúdo relacionado é: ${ err.error }`);
-        }
-      }
-    );
-  }
-
   public getProdutosService() {
     console.log('LOG');
-  }
-
-  public getQtTecidoF1(vr_largura: number): number {
-    return vr_largura * 2.5;
-  }
-
-  public getQtTecidoF2(vr_altura: number, vr_largura: number): number {
-    return (vr_altura + 30) * (Math.round(vr_largura / 120));
-  }
-
-  public getQtTecidoF3(vr_largura: number): number {
-    return vr_largura * 2.3;
-  }
-
-  public getQtTecidoF4(vr_altura: number, vr_largura: number): number {
-    return (vr_altura + 30) * (Math.round(vr_largura / 150));
   }
 
   public getPrecoItem(qt_tecido: number, vr_tecido: number): number {
@@ -305,7 +205,6 @@ export class OrderComponent implements OnInit {
     const qt_itens: number = Number(this.orderForm.controls.qt_itens);
     if ((this.orderForm.controls.sg_uf.value) && (qt_itens < 5)) {
       vr_frete = qt_itens * this.getFreteService(this.orderForm.controls.sg_uf.value);
-      /*vr_frete = qt_itens * 20;*/
     } else {
       vr_frete = 0;
     }
@@ -335,5 +234,120 @@ export class OrderComponent implements OnInit {
 
   getDBServiceObjeto(objeto): Observable<any[]> {
     return this.db.object(objeto).valueChanges();
+  }
+
+  /* Submete pedido e realiza integração com o PagSeguro  */
+  public onOrderFormSubmit() {
+    const item: Item[] = this.orderForm.controls.items.value;
+    /* Preencher objeto do pedido */
+    this.orderCheckout = new OrderCheckout(
+      item,
+      this.orderForm.controls.no_cliente.value,
+      this.orderForm.controls.nu_telefone.value,
+      this.orderForm.controls.no_email.value,
+      this.orderForm.controls.no_logradouro.value,
+      this.orderForm.controls.nu_numero.value,
+      this.orderForm.controls.no_bairro.value,
+      this.orderForm.controls.no_municipio.value,
+      this.orderForm.controls.sg_uf.value,
+      this.orderForm.controls.nu_cep.value,
+      this.orderForm.controls.qt_itens.value,
+      this.orderForm.controls.vr_frete.value,
+      this.orderForm.controls.vr_total.value
+    );
+
+    /* Criar JSON a partir do objeto  */
+    const data = JSON.stringify(this.orderCheckout);
+    console.log('-----PEDIDO em formato JSON-----');
+    console.log( data );
+
+    /* Enviar para o backend (CHAMAR SERVICE) */
+
+    /* Definir variáveis para onstruir XML de integração com o PagSeguro */
+    const emp = '<<credentials to the webservice>>';
+    const login = '<<credentials to the webservice>>';
+    const pass = '<<credentials to the webservice>>';
+    const id = '<<credentials to the webservice>>';
+
+    /* Definir template e conteúdo do XML  */
+    const body: string = '<?xml version=\"1.0\"?><checkout>\r\n' +
+      '<sender>\r\n' +
+        '<name>\"Jose Comprador\"</name>\r\n' +
+        '<email>\"comprador@uol.com.br\"</email>\r\n' +
+        '<phone>\r\n' +
+          '<areaCode>\"99\"</areaCode>\r\n' +
+          '<number>\"99999999\"</number>\r\n' +
+        '</phone>\r\n' +
+        '<ip>\"1.1.1.1\"</ip>\r\n' +
+        '<documents>\r\n' +
+          '<document>\r\n' +
+            '<type>\"CPF\"</type>\r\n' +
+            '<value>\"11475714734\"</value>\r\n' +
+          '</document>\r\n' +
+        '</documents>\r\n' +
+      '</sender>\r\n' +
+      '<currency>\"BRL\"</currency>\r\n' +
+      '<items>\r\n' +
+        '<item>\r\n' +
+          '<id>\"0001\"</id>\r\n' +
+          '<description>\"Produto PagSeguroI\"</description>\r\n' +
+          '<amount>\"99999.99\"</amount>\r\n' +
+          '<quantity>\"1\"</quantity>\r\n' +
+          '<weight>\"10\"</weight>\r\n' +
+          '<shippingCost>\"1.00\"</shippingCost>\r\n' +
+        '</item>\r\n' +
+      '</items>\r\n' +
+      '<redirectURL>\"http://lojamodelo.com.br/return.html\"</redirectURL>\r\n' +
+      '<extraAmount>\"10.00\"</extraAmount>\r\n' +
+      '<reference>\"REF1234\"</reference>\r\n' +
+      '<shipping>\r\n' +
+        '<address>\r\n' +
+          '<street>\"Av. PagSeguro\"</street>\r\n' +
+          '<number>\"9999\"</number>\r\n' +
+          '<complement>\"99o andar\"</complement>\r\n' +
+          '<district>\"Jardim Internet\"</district>\r\n' +
+          '<city>\"Cidade Exemplo\"</city>\r\n' +
+          '<state>\"SP\"</state>\r\n' +
+          '<country>\"BRA\"</country>\r\n' +
+          '<postalCode>\"99999999\"</postalCode>\r\n' +
+        '</address>\r\n' +
+        '<type>\"1\"</type>\r\n' +
+        '<cost>\"1.00\"</cost>\r\n' +
+        '<addressRequired>\"true\"</addressRequired>\r\n' +
+      '</shipping>\r\n' +
+      '<maxAge>\"999999999\"</maxAge>\r\n' +
+      '<maxUses>\"999</maxUses>\r\n' +
+      '<receiver>\r\n' +
+        '<email>\"suporte@lojamodelo.com.br\"</email>\r\n' +
+      '</receiver>\r\n' +
+    '</checkout>';
+
+    console.log( body );
+
+    const urltest = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/?' +
+                    'email=suporte@lojamodelo.com.br&token=57BE455F4EC148E5A54D9BB91C5AC12C';
+    const url = this.pagseguroURL;
+
+    /* Enviar XML ao PagSeguro, retornando possíveis erros */
+    this.http.post( urltest, body, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'text/xml')
+      .append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
+      .append('Access-Control-Allow-Origin', '*')
+      .append('Access-Control-Allow-Headers',
+              'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'), responseType: 'text'})
+      // tslint:disable-next-line:no-shadowed-variable
+      .subscribe( data => {
+      console.log( data );
+    }, (err: HttpErrorResponse) => {
+          if ( err.error instanceof Error ) {
+            // A client-side or network error occurred. Handle it accordingly.
+            console.log('Ocorreu um erro na integração:', err.error.message);
+          } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong,
+            console.log(`Retornado o código ${ err.status }, cujo conteúdo relacionado é: ${ err.error }`);
+          }
+        });
   }
 }
